@@ -125,6 +125,7 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	 * It does <i>not</> imply traditional by-name or by-type autowiring of properties;
 	 * use {@link #createBean(Class, int, boolean)} for those purposes.
      *
+     * 创建bean
      * 
 	 * @param beanClass the class of the bean to create
 	 * @return the new bean instance
