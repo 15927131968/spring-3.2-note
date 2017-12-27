@@ -20,27 +20,35 @@ package org.springframework.beans;
  * Thrown on an unrecoverable problem encountered in the
  * beans packages or sub-packages, e.g. bad class or field.
  *
+ * 抛出一个无法修复的beans包或者子包中的错误
+ *
  * @author Rod Johnson
  */
 @SuppressWarnings("serial")
 public class FatalBeanException extends BeansException {
 
-	/**
-	 * Create a new FatalBeanException with the specified message.
-	 * @param msg the detail message
-	 */
-	public FatalBeanException(String msg) {
-		super(msg);
-	}
+    /**
+     * Create a new FatalBeanException with the specified message.
+     *
+     * 构造方法
+     *
+     * @param msg the detail message
+     */
+    public FatalBeanException(String msg) {
+        super(msg);
+    }
 
-	/**
-	 * Create a new FatalBeanException with the specified message
-	 * and root cause.
-	 * @param msg the detail message
-	 * @param cause the root cause
-	 */
-	public FatalBeanException(String msg, Throwable cause) {
-		super(msg, cause);
-	}
+    /**
+     * Create a new FatalBeanException with the specified message
+     * and root cause.
+     *
+     * 构造方法
+     *
+     * @param msg the detail message
+     * @param cause the root cause
+     */
+    public FatalBeanException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
 
 }
