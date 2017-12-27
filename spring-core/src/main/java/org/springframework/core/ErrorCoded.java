@@ -23,6 +23,10 @@ package org.springframework.core;
  *
  * <p>An error code can be resolved by a MessageSource, for example.
  *
+ * 错误码
+ * 错误码是一个字符串，而不是数字
+ * 这样的好处是它比较易读，比如object.failureDescription
+ *
  * @author Rod Johnson
  * @see org.springframework.context.MessageSource
  */
@@ -31,6 +35,9 @@ public interface ErrorCoded {
 	/**
 	 * Return the error code associated with this failure.
 	 * The GUI can render this any way it pleases, allowing for localization etc.
+     *
+     * 返回相关联的错误码
+     *
 	 * @return a String error code associated with this failure,
 	 * or {@code null} if not error-coded
 	 */
