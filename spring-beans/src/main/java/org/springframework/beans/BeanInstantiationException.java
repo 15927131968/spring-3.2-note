@@ -20,40 +20,54 @@ package org.springframework.beans;
  * Exception thrown when instantiation of a bean failed.
  * Carries the offending bean class.
  *
+ * 在Bean实例化失败后抛出的异常
+ *
  * @author Juergen Hoeller
  * @since 1.2.8
  */
 @SuppressWarnings("serial")
 public class BeanInstantiationException extends FatalBeanException {
 
-	private Class beanClass;
+    /**
+     * Bean类
+     */
+    private Class beanClass;
 
 
-	/**
-	 * Create a new BeanInstantiationException.
-	 * @param beanClass the offending bean class
-	 * @param msg the detail message
-	 */
-	public BeanInstantiationException(Class beanClass, String msg) {
-		this(beanClass, msg, null);
-	}
+    /**
+     * Create a new BeanInstantiationException.
+     *
+     * Bean实例化异常
+     *
+     * @param beanClass the offending bean class
+     * @param msg the detail message
+     */
+    public BeanInstantiationException(Class beanClass, String msg) {
+        this(beanClass, msg, null);
+    }
 
-	/**
-	 * Create a new BeanInstantiationException.
-	 * @param beanClass the offending bean class
-	 * @param msg the detail message
-	 * @param cause the root cause
-	 */
-	public BeanInstantiationException(Class beanClass, String msg, Throwable cause) {
-		super("Could not instantiate bean class [" + beanClass.getName() + "]: " + msg, cause);
-		this.beanClass = beanClass;
-	}
+    /**
+     * Create a new BeanInstantiationException.
+     *
+     * Bean实例化异常
+     *
+     * @param beanClass the offending bean class
+     * @param msg the detail message
+     * @param cause the root cause
+     */
+    public BeanInstantiationException(Class beanClass, String msg, Throwable cause) {
+        super("Could not instantiate bean class [" + beanClass.getName() + "]: " + msg, cause);
+        this.beanClass = beanClass;
+    }
 
-	/**
-	 * Return the offending bean class.
-	 */
-	public Class getBeanClass() {
-		return beanClass;
-	}
+    /**
+     * Return the offending bean class.
+     *
+     * 返回Bean对应的类
+     *
+     */
+    public Class getBeanClass() {
+        return beanClass;
+    }
 
 }
