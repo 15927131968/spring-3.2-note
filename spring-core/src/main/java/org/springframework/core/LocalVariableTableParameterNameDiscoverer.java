@@ -111,21 +111,18 @@ public class LocalVariableTableParameterNameDiscoverer implements ParameterNameD
 			Map<Member, String[]> map = new ConcurrentHashMap<Member, String[]>(32);
 			classReader.accept(new ParameterNameDiscoveringVisitor(clazz, map), 0);
 			return map;
-		}
-		catch (IOException ex) {
+		} catch (IOException ex) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Exception thrown while reading '.class' file for class [" + clazz +
 						"] - unable to determine constructor/method parameter names", ex);
 			}
-		}
-		catch (IllegalArgumentException ex) {
+		} catch (IllegalArgumentException ex) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("ASM ClassReader failed to parse class file [" + clazz +
 						"], probably due to a new Java class file version that isn't supported yet " +
 						"- unable to determine constructor/method parameter names", ex);
 			}
-		}
-		finally {
+		} finally {
 			try {
 				is.close();
 			}
@@ -255,8 +252,7 @@ public class LocalVariableTableParameterNameDiscoverer implements ParameterNameD
 				lvtIndex[i] = nextIndex;
 				if (isWideType(paramTypes[i])) {
 					nextIndex += 2;
-				}
-				else {
+				} else {
 					nextIndex++;
 				}
 			}

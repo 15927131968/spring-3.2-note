@@ -21,42 +21,44 @@ import java.lang.annotation.Annotation;
 import org.springframework.core.GenericCollectionTypeResolver;
 
 /**
+ * 类描述符
+ *
  * @author Keith Donald
  * @author Phillip Webb
  * @since 3.1
  */
 class ClassDescriptor extends AbstractDescriptor {
 
-	ClassDescriptor(Class<?> type) {
-		super(type);
-	}
+    ClassDescriptor(Class<?> type) {
+        super(type);
+    }
 
-	@Override
-	public Annotation[] getAnnotations() {
-		return TypeDescriptor.EMPTY_ANNOTATION_ARRAY;
-	}
+    @Override
+    public Annotation[] getAnnotations() {
+        return TypeDescriptor.EMPTY_ANNOTATION_ARRAY;
+    }
 
-	@Override
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected Class<?> resolveCollectionElementType() {
-		return GenericCollectionTypeResolver.getCollectionType((Class) getType());
-	}
+    @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    protected Class<?> resolveCollectionElementType() {
+        return GenericCollectionTypeResolver.getCollectionType((Class) getType());
+    }
 
-	@Override
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected Class<?> resolveMapKeyType() {
-		return GenericCollectionTypeResolver.getMapKeyType((Class) getType());
-	}
+    @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    protected Class<?> resolveMapKeyType() {
+        return GenericCollectionTypeResolver.getMapKeyType((Class) getType());
+    }
 
-	@Override
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected Class<?> resolveMapValueType() {
-		return GenericCollectionTypeResolver.getMapValueType((Class) getType());
-	}
+    @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    protected Class<?> resolveMapValueType() {
+        return GenericCollectionTypeResolver.getMapValueType((Class) getType());
+    }
 
-	@Override
-	protected AbstractDescriptor nested(Class<?> type, int typeIndex) {
-		return new ClassDescriptor(type);
-	}
+    @Override
+    protected AbstractDescriptor nested(Class<?> type, int typeIndex) {
+        return new ClassDescriptor(type);
+    }
 
 }

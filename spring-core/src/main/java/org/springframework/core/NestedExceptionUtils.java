@@ -46,8 +46,7 @@ public abstract class NestedExceptionUtils {
 			}
 			sb.append("nested exception is ").append(cause);
 			return sb.toString();
-		}
-		else {
+		} else {
 			return message;
 		}
 	}

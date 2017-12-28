@@ -24,18 +24,34 @@ import java.util.Map;
 import org.springframework.core.GenericCollectionTypeResolver;
 
 /**
+ * 属性描述符
+ *
  * @author Keith Donald
  * @since 3.1
  */
 class FieldDescriptor extends AbstractDescriptor {
 
+    /**
+     * 属性
+     */
 	private final Field field;
 
+    /**
+     * 嵌套的层级
+     */
 	private final int nestingLevel;
 
+    /**
+     *
+     */
 	private Map<Integer, Integer> typeIndexesPerLevel;
 
 
+    /**
+     * 默认层级为1
+     *
+     * @param field
+     */
 	public FieldDescriptor(Field field) {
 		super(field.getType());
 		this.field = field;

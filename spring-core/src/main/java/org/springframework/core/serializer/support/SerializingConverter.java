@@ -38,6 +38,7 @@ public class SerializingConverter implements Converter<Object, byte[]> {
 
 	/**
 	 * Create a default SerializingConverter that uses standard Java serialization.
+     * 使用标准的
 	 */
 	public SerializingConverter() {
 		this.serializer = new DefaultSerializer();
@@ -54,14 +55,16 @@ public class SerializingConverter implements Converter<Object, byte[]> {
 
 	/**
 	 * Serializes the source object and returns the byte array result.
+	 *
+	 * 序列化原始对象为字节数组
+	 *
 	 */
 	public byte[] convert(Object source) {
 		ByteArrayOutputStream byteStream = new ByteArrayOutputStream(256);
 		try  {
 			this.serializer.serialize(source, byteStream);
 			return byteStream.toByteArray();
-		}
-		catch (Throwable ex) {
+		} catch (Throwable ex) {
 			throw new SerializationFailedException("Failed to serialize object using " +
 					this.serializer.getClass().getSimpleName(), ex);
 		}

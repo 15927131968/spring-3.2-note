@@ -333,6 +333,7 @@ public abstract class CollectionFactory {
 
 	/**
 	 * ConcurrentMap adapter for the JDK ConcurrentHashMap class.
+	 * 对JDK自带的ConcurrentHashMap的一个适配器
 	 */
 	@Deprecated
 	@SuppressWarnings("serial")

@@ -23,11 +23,17 @@ import java.util.Map;
 import org.springframework.util.Assert;
 
 /**
+ *
+ * 抽象的描述符
+ *
  * @author Keith Donald
  * @since 3.1
  */
 abstract class AbstractDescriptor {
 
+    /**
+     * 类型
+     */
 	private final Class<?> type;
 
 
@@ -49,8 +55,7 @@ abstract class AbstractDescriptor {
 		else if (isArray()) {
 			Class<?> elementType = getType().getComponentType();
 			return new TypeDescriptor(nested(elementType, 0));
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
@@ -59,8 +64,7 @@ abstract class AbstractDescriptor {
 		if (isMap()) {
 			Class<?> keyType = resolveMapKeyType();
 			return keyType != null ? new TypeDescriptor(nested(keyType, 0)) : null;
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
@@ -69,8 +73,7 @@ abstract class AbstractDescriptor {
 		if (isMap()) {
 			Class<?> valueType = resolveMapValueType();
 			return valueType != null ? new TypeDescriptor(nested(valueType, 1)) : null;
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
@@ -79,26 +82,23 @@ abstract class AbstractDescriptor {
 		if (isCollection()) {
 			Class<?> elementType = resolveCollectionElementType();
 			return (elementType != null ? nested(elementType, 0) : null);
-		}
-		else if (isArray()) {
+		} else if (isArray()) {
 			return nested(getType().getComponentType(), 0);
-		}
-		else if (isMap()) {
+		} else if (isMap()) {
 			Class<?> mapValueType = resolveMapValueType();
 			return (mapValueType != null ? nested(mapValueType, 1) : null);
-		}
-		else if (Object.class.equals(getType())) {
+		} else if (Object.class.equals(getType())) {
 			// could be a collection type but we don't know about its element type,
 			// so let's just assume there is an element type of type Object
 			return this;
-		}
-		else {
+		} else {
 			throw new IllegalStateException("Not a collection, array, or map: cannot resolve nested value types");
 		}
 	}
 
 
 	// subclassing hooks
+    // 子类的回调
 
 	public abstract Annotation[] getAnnotations();
 
@@ -112,6 +112,7 @@ abstract class AbstractDescriptor {
 
 
 	// internal helpers
+    // 内部助手类
 
 	private boolean isCollection() {
 		return Collection.class.isAssignableFrom(getType());

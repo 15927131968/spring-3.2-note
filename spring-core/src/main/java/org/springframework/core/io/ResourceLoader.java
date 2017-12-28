@@ -31,6 +31,12 @@ import org.springframework.util.ResourceUtils;
  * from Strings when running in an ApplicationContext, using the particular
  * context's resource loading strategy.
  *
+ * 加载资源的策略接口
+ * 我们可以从类路径加载，也可以从文件系统加载
+ *
+ * DefaultResourceLoader是一个独立的实现
+ *
+ *
  * @author Juergen Hoeller
  * @since 10.03.2004
  * @see Resource
@@ -40,7 +46,10 @@ import org.springframework.util.ResourceUtils;
  */
 public interface ResourceLoader {
 
-	/** Pseudo URL prefix for loading from the class path: "classpath:" */
+	/**
+	 * Pseudo URL prefix for loading from the class path: "classpath:"
+     * 类路径的前缀，默认是"classpath:"
+     */
 	String CLASSPATH_URL_PREFIX = ResourceUtils.CLASSPATH_URL_PREFIX;
 
 
@@ -57,6 +66,8 @@ public interface ResourceLoader {
 	 * </ul>
 	 * <p>Note that a Resource handle does not imply an existing resource;
 	 * you need to invoke {@link Resource#exists} to check for existence.
+     *
+     *
 	 * @param location the resource location
 	 * @return a corresponding Resource handle
 	 * @see #CLASSPATH_URL_PREFIX
@@ -70,6 +81,8 @@ public interface ResourceLoader {
 	 * <p>Clients which need to access the ClassLoader directly can do so
 	 * in a uniform manner with the ResourceLoader, rather than relying
 	 * on the thread context ClassLoader.
+     *
+     *
 	 * @return the ClassLoader (only {@code null} if even the system
 	 * ClassLoader isn't accessible)
 	 * @see org.springframework.util.ClassUtils#getDefaultClassLoader()

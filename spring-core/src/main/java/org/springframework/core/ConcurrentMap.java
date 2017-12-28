@@ -27,6 +27,9 @@ import java.util.Map;
  * <p>Check out the {@link java.util.concurrent.ConcurrentMap ConcurrentMap javadoc}
  * for details on the interface's methods.
  *
+ * 支持并发访问的map
+ * 在Java5之后可以使用标准的java.util.concurrent.ConcurrentMap
+ *
  * @author Juergen Hoeller
  * @since 2.5
  * @deprecated as of Spring 3.0, since standard {@link java.util.concurrent.ConcurrentMap}

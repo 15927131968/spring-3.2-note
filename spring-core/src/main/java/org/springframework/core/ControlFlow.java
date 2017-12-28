@@ -21,6 +21,8 @@ package org.springframework.core;
  * the current call stack. Useful in AOP (as in AspectJ cflow concept)
  * but not AOP-specific.
  *
+ * 返回当前调用栈的信息
+ *
  * @author Rod Johnson
  * @since 02.02.2004
  */
@@ -29,6 +31,9 @@ public interface ControlFlow {
 	/**
 	 * Detect whether we're under the given class,
 	 * according to the current stack trace.
+     *
+     * 通过当前的调用栈
+     *
 	 * @param clazz the clazz to look for
 	 */
 	boolean under(Class clazz);

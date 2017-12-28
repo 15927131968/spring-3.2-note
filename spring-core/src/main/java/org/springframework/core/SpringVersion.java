@@ -26,6 +26,7 @@ package org.springframework.core;
  * For example, checking for the presence of a specific Spring 2.0
  * method that you intend to call.
  *
+ *
  * @author Juergen Hoeller
  * @since 1.1
  */

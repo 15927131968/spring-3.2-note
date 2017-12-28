@@ -50,10 +50,10 @@ public interface AliasRegistry {
 	void removeAlias(String alias);
 
 	/**
-	 * Determine whether this given name is defines as an alias
-	 * (as opposed to the name of an actually registered component).
+     * Determine whether this given name is defines as an alias
+     * (as opposed to the name of an actually registered component).
 	 *
-	 * 判断一个名称是否是别名
+     * 判断一个名称是否是别名
 	 *
 	 * @param beanName the bean name to check
 	 * @return whether the given name is an alias

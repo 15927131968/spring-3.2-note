@@ -34,6 +34,7 @@ import org.springframework.util.Assert;
  * a Method or Constructor plus a parameter index and a nested type index for
  * a declared generic type. Useful as a specification object to pass along.
  *
+ *
  * @author Juergen Hoeller
  * @author Rob Harrop
  * @author Andy Clement
@@ -42,22 +43,49 @@ import org.springframework.util.Assert;
  */
 public class MethodParameter {
 
+    /**
+     * 普通方法
+     */
 	private final Method method;
 
+    /**
+     * 构造方法
+     */
 	private final Constructor<?> constructor;
 
+    /**
+     * 参数下标
+     */
 	private final int parameterIndex;
 
+    /**
+     * 参数类型
+     */
 	private volatile Class<?> parameterType;
 
+    /**
+     *
+     */
 	private volatile Type genericParameterType;
 
+    /**
+     * 参数的注解
+     */
 	private volatile Annotation[] parameterAnnotations;
 
+    /**
+     *
+     */
 	private volatile ParameterNameDiscoverer parameterNameDiscoverer;
 
+    /**
+     * 参数名称
+     */
 	private volatile String parameterName;
 
+    /**
+     * 嵌套深度
+     */
 	private int nestingLevel = 1;
 
 	/** Map from Integer level to Integer type index */
