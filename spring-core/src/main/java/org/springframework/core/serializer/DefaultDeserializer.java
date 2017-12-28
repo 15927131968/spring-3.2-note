@@ -25,23 +25,26 @@ import org.springframework.core.NestedIOException;
 /**
  * Deserializer that reads an input stream using Java Serialization.
  *
+ * 默认的反序列化工具
+ *
  * @author Gary Russell
  * @author Mark Fisher
  * @since 3.0.5
  */
 public class DefaultDeserializer implements Deserializer<Object> {
 
-	/**
-	 * Reads the input stream and deserializes into an object.
-	 */
-	public Object deserialize(InputStream inputStream) throws IOException {
-		ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-		try {
-			return objectInputStream.readObject();
-		}
-		catch (ClassNotFoundException ex) {
-			throw new NestedIOException("Failed to deserialize object type", ex);
-		}
-	}
+    /**
+     * 反序列化
+     *
+     * Reads the input stream and deserializes into an object.
+     */
+    public Object deserialize(InputStream inputStream) throws IOException {
+        ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+        try {
+            return objectInputStream.readObject();
+        } catch (ClassNotFoundException ex) {
+            throw new NestedIOException("Failed to deserialize object type", ex);
+        }
+    }
 
 }
