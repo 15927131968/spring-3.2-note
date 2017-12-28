@@ -23,6 +23,8 @@ package org.springframework.cglib;
  * <p>See <a href="package-summary.html">package-level Javadoc</a> for more
  * information on {@code org.springframework.cglib}.
  *
+ * 空类
+ *
  * @author Chris Beams
  * @since 3.2
  */
