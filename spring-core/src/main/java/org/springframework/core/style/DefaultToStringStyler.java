@@ -148,7 +148,7 @@ public class DefaultToStringStyler implements ToStringStyler {
 
     /**
      * 格式化字段分隔符
-     * 
+     *
      * @param buffer buffer to print to
      */
 	public void styleFieldSeparator(StringBuilder buffer) {
