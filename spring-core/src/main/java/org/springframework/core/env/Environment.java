@@ -56,6 +56,19 @@ package org.springframework.core.env;
  * {@link ConfigurableEnvironment} Javadoc for usage examples demonstrating manipulation
  * of property sources prior to application context {@code refresh()}.
  *
+ * 它代表了当前应用运行的环境
+ * 它主要来自于两个地方的配置: profiles 和 properties
+ * 我们可以通过PropertyResolver来提取属性值
+ * Properties在大多数应用中都扮演了非常重要的角色，它可以来自于:
+ * (1)配置文件
+ * (2)JVM环境变量
+ * (3)系统变量
+ * (4)JNDI
+ * (5)servlet的上下文参数
+ * (6)特定的对象
+ * (7)配置映射
+ *
+ *
  * @author Chris Beams
  * @since 3.1
  * @see PropertyResolver

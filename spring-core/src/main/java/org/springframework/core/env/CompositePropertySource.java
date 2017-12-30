@@ -24,42 +24,66 @@ import java.util.Set;
  * {@link PropertySource} instances. Necessary in cases where multiple property sources
  * share the same name, e.g. when multiple values are supplied to {@code @PropertySource}.
  *
+ * 混合属性源
+ *
  * @author Chris Beams
  * @since 3.1.1
  */
 public class CompositePropertySource extends PropertySource<Object> {
 
-	private final Set<PropertySource<?>> propertySources = new LinkedHashSet<PropertySource<?>>();
+    /**
+     * 属性源集合
+     */
+    private final Set<PropertySource<?>> propertySources = new LinkedHashSet<PropertySource<?>>();
 
 
-	/**
-	 * Create a new {@code CompositePropertySource}.
-	 * @param name the name of the property source
-	 */
-	public CompositePropertySource(String name) {
-		super(name);
-	}
+    /**
+     * Create a new {@code CompositePropertySource}.
+     *
+     * 构造方法
+     *
+     * @param name the name of the property source
+     */
+    public CompositePropertySource(String name) {
+        super(name);
+    }
 
 
-	@Override
-	public Object getProperty(String name) {
-		for (PropertySource<?> propertySource : this.propertySources) {
-			Object candidate = propertySource.getProperty(name);
-			if (candidate != null) {
-				return candidate;
-			}
-		}
-		return null;
-	}
+    /**
+     * 获取属性值
+     *
+     * @param name the property to find
+     * @return
+     */
+    @Override
+    public Object getProperty(String name) {
+        for (PropertySource<?> propertySource : this.propertySources) {
+            Object candidate = propertySource.getProperty(name);
+            if (candidate != null) {
+                return candidate;
+            }
+        }
+        return null;
+    }
 
-	public void addPropertySource(PropertySource<?> propertySource) {
-		this.propertySources.add(propertySource);
-	}
+    /**
+     * 添加一个属性源
+     *
+     * @param propertySource
+     */
+    public void addPropertySource(PropertySource<?> propertySource) {
+        this.propertySources.add(propertySource);
+    }
 
-	@Override
-	public String toString() {
-		return String.format("%s [name='%s', propertySources=%s]",
-				getClass().getSimpleName(), this.name, this.propertySources);
-	}
+    /**
+     * 转换为字符串
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return String.format("%s [name='%s', propertySources=%s]",
+                getClass().getSimpleName(), this.name, this.propertySources);
+    }
 
 }
