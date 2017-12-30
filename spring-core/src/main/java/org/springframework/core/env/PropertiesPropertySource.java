@@ -29,14 +29,23 @@ import java.util.Properties;
  * accessing only {@code String}-based keys and values, in the same fashion as
  * {@link Properties#getProperty} and {@link Properties#setProperty}.
  *
+ * 从Properties文件中提取属性源
+ * 其实从它的子类来看，它不仅可以用xx.properties中提取，也可以用xx.xml文件中提取
+ *
  * @author Chris Beams
  * @since 3.1
  */
 public class PropertiesPropertySource extends MapPropertySource {
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public PropertiesPropertySource(String name, Properties source) {
-		super(name, (Map) source);
-	}
+    /**
+     * 通过名称和Properties文件来构造
+     *
+     * @param name
+     * @param source
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public PropertiesPropertySource(String name, Properties source) {
+        super(name, (Map) source);
+    }
 
 }

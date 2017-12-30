@@ -22,6 +22,8 @@ import java.util.Set;
 /**
  * Exception thrown when required properties are not found.
  *
+ * 丢失必要的配置异常
+ * 
  * @author Chris Beams
  * @since 3.1
  * @see ConfigurablePropertyResolver#setRequiredProperties(String...)
@@ -31,26 +33,42 @@ import java.util.Set;
 @SuppressWarnings("serial")
 public class MissingRequiredPropertiesException extends IllegalStateException {
 
-	private final Set<String> missingRequiredProperties = new LinkedHashSet<String>();
+    /**
+     * 丢失的所有的配置项
+     */
+    private final Set<String> missingRequiredProperties = new LinkedHashSet<String>();
 
-	/**
-	 * Return the set of properties marked as required but not present
-	 * upon validation.
-	 * @see ConfigurablePropertyResolver#setRequiredProperties(String...)
-	 * @see ConfigurablePropertyResolver#validateRequiredProperties()
-	 */
-	public Set<String> getMissingRequiredProperties() {
-		return missingRequiredProperties;
-	}
+    /**
+     * Return the set of properties marked as required but not present
+     * upon validation.
+     *
+     * 获取丢失的配置项
+     *
+     * @see ConfigurablePropertyResolver#setRequiredProperties(String...)
+     * @see ConfigurablePropertyResolver#validateRequiredProperties()
+     */
+    public Set<String> getMissingRequiredProperties() {
+        return missingRequiredProperties;
+    }
 
-	void addMissingRequiredProperty(String key) {
-		missingRequiredProperties.add(key);
-	}
+    /**
+     * 添加一个丢失的配置项
+     *
+     * @param key
+     */
+    void addMissingRequiredProperty(String key) {
+        missingRequiredProperties.add(key);
+    }
 
-	@Override
-	public String getMessage() {
-		return String.format(
-				"The following properties were declared as required but could " +
-				"not be resolved: %s", this.getMissingRequiredProperties());
-	}
+    /**
+     * 获取具体的信息
+     *
+     * @return
+     */
+    @Override
+    public String getMessage() {
+        return String.format(
+                "The following properties were declared as required but could " +
+                "not be resolved: %s", this.getMissingRequiredProperties());
+    }
 }

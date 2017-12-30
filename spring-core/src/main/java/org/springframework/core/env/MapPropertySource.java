@@ -23,25 +23,38 @@ import org.springframework.util.StringUtils;
 /**
  * {@link PropertySource} that reads keys and values from a {@code Map} object.
  *
+ * 属性源映射
+ *
  * @author Chris Beams
  * @since 3.1
  * @see PropertiesPropertySource
  */
 public class MapPropertySource extends EnumerablePropertySource<Map<String, Object>> {
 
-	public MapPropertySource(String name, Map<String, Object> source) {
-		super(name, source);
-	}
+    public MapPropertySource(String name, Map<String, Object> source) {
+        super(name, source);
+    }
 
 
-	@Override
-	public Object getProperty(String name) {
-		return this.source.get(name);
-	}
+    /**
+     * 从映射中获取单个键的值
+     *
+     * @param name the property to find
+     * @return
+     */
+    @Override
+    public Object getProperty(String name) {
+        return this.source.get(name);
+    }
 
-	@Override
-	public String[] getPropertyNames() {
-		return StringUtils.toStringArray(this.source.keySet());
-	}
+    /**
+     * 获取所有的键
+     *
+     * @return
+     */
+    @Override
+    public String[] getPropertyNames() {
+        return StringUtils.toStringArray(this.source.keySet());
+    }
 
 }

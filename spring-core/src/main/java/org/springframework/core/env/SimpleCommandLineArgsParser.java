@@ -46,41 +46,65 @@ package org.springframework.core.env;
  * prefix will be considered as "non-option arguments" and made available through the
  * {@link CommandLineArgs#getNonOptionArgs()} method.
  *
+ * 通常的使用语法:
+ * --optName[=optValue]
+ * 即:  --配置项[=配置值]
+ * 配置项必须带有前缀--
+ * 配置项可以没有值
+ *
+ * 合法的配置项:
+ * --foo
+ * --foo=bar
+ * --foo="bar then baz"
+ * --foo=bar,baz,biz
+ *
  * @author Chris Beams
  * @since 3.1
  */
 class SimpleCommandLineArgsParser {
 
-	/**
-	 * Parse the given {@code String} array based on the rules described
-	 * {@linkplain SimpleCommandLineArgsParser above}, returning a
-	 * fully-populated {@link CommandLineArgs} object.
-	 * @param args command line arguments, typically from a {@code main()} method
-	 */
-	public CommandLineArgs parse(String... args) {
-		CommandLineArgs commandLineArgs = new CommandLineArgs();
-		for (String arg : args) {
-			if (arg.startsWith("--")) {
-				String optionText = arg.substring(2, arg.length());
-				String optionName;
-				String optionValue = null;
-				if (optionText.contains("=")) {
-					optionName = optionText.substring(0, optionText.indexOf('='));
-					optionValue = optionText.substring(optionText.indexOf('=') + 1, optionText.length());
-				}
-				else {
-					optionName = optionText;
-				}
-				if (optionName.length() == 0 || (optionValue != null && optionValue.length() == 0)) {
-					throw new IllegalArgumentException("Invalid argument syntax: " + arg);
-				}
-				commandLineArgs.addOptionArg(optionName, optionValue);
-			}
-			else {
-				commandLineArgs.addNonOptionArg(arg);
-			}
-		}
-		return commandLineArgs;
-	}
+    /**
+     * Parse the given {@code String} array based on the rules described
+     * {@linkplain SimpleCommandLineArgsParser above}, returning a
+     * fully-populated {@link CommandLineArgs} object.
+     *
+     * 解析给定的命令行参数
+     *
+     * @param args command line arguments, typically from a {@code main()} method
+     */
+    public CommandLineArgs parse(String... args) {
+        CommandLineArgs commandLineArgs = new CommandLineArgs();
+        for (String arg : args) {
+            if (arg.startsWith("--")) {
+                String optionText = arg.substring(2, arg.length());
+
+                // 配置项
+                String optionName;
+
+                // 配置的值
+                String optionValue = null;
+
+                if (optionText.contains("=")) {
+                    // 如果包含等号则提取:配置项和值
+                    optionName = optionText.substring(0, optionText.indexOf('='));
+                    optionValue = optionText.substring(optionText.indexOf('=') + 1, optionText.length());
+                } else {
+                    // 否则只提取配置项
+                    optionName = optionText;
+                }
+
+                if (optionName.length() == 0 || (optionValue != null && optionValue.length() == 0)) {
+                    // 配置项和配置值都不允许空字符串
+                    throw new IllegalArgumentException("Invalid argument syntax: " + arg);
+                }
+
+                commandLineArgs.addOptionArg(optionName, optionValue);
+            } else {
+                // 非可选参数
+                commandLineArgs.addNonOptionArg(arg);
+            }
+        }
+        return commandLineArgs;
+    }
 
 }
