@@ -19,21 +19,30 @@ package org.springframework.core.env;
 /**
  * Holder containing one or more {@link PropertySource} objects.
  *
+ * 保存一个或者多个PropertySource
+ * 
  * @author Chris Beams
  * @since 3.1
  */
 public interface PropertySources extends Iterable<PropertySource<?>> {
 
-	/**
-	 * Return whether a property source with the given name is contained.
-	 * @param name the {@linkplain PropertySource#getName() name of the property source} to find
-	 */
-	boolean contains(String name);
+    /**
+     * Return whether a property source with the given name is contained.
+     *
+     * 判断是否包含给定的属性源
+     *
+     * @param name the {@linkplain PropertySource#getName() name of the property source} to find
+     */
+    boolean contains(String name);
 
-	/**
-	 * Return the property source with the given name, {@code null} if not found.
-	 * @param name the {@linkplain PropertySource#getName() name of the property source} to find
-	 */
-	PropertySource<?> get(String name);
+    /**
+     * Return the property source with the given name, {@code null} if not found.
+     *
+     * 返回特定的属性源
+     * 如果未发现，则返回null
+     *
+     * @param name the {@linkplain PropertySource#getName() name of the property source} to find
+     */
+    PropertySource<?> get(String name);
 
 }
