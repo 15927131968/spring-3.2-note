@@ -33,6 +33,9 @@ import org.springframework.util.Assert;
  * Also detects an extended {@code java.util.concurrent.ExecutorService}, adapting
  * the {@link org.springframework.core.task.AsyncTaskExecutor} interface accordingly.
  *
+ * 线程池适配器
+ * 它即支持Java原生的Executor，也支持Spring自己的TaskExecutor
+ *
  * @author Juergen Hoeller
  * @since 3.0
  * @see java.util.concurrent.Executor
@@ -41,70 +44,92 @@ import org.springframework.util.Assert;
  */
 public class TaskExecutorAdapter implements AsyncTaskExecutor {
 
-	private final Executor concurrentExecutor;
+    private final Executor concurrentExecutor;
 
 
-	/**
-	 * Create a new TaskExecutorAdapter,
-	 * using the given JDK concurrent executor.
-	 * @param concurrentExecutor the JDK concurrent executor to delegate to
-	 */
-	public TaskExecutorAdapter(Executor concurrentExecutor) {
-		Assert.notNull(concurrentExecutor, "Executor must not be null");
-		this.concurrentExecutor = concurrentExecutor;
-	}
+    /**
+     * Create a new TaskExecutorAdapter,
+     * using the given JDK concurrent executor.
+     *
+     * 构造方法
+     *
+     * @param concurrentExecutor the JDK concurrent executor to delegate to
+     */
+    public TaskExecutorAdapter(Executor concurrentExecutor) {
+        Assert.notNull(concurrentExecutor, "Executor must not be null");
+        this.concurrentExecutor = concurrentExecutor;
+    }
 
 
-	/**
-	 * Delegates to the specified JDK concurrent executor.
-	 * @see java.util.concurrent.Executor#execute(Runnable)
-	 */
-	public void execute(Runnable task) {
-		try {
-			this.concurrentExecutor.execute(task);
-		}
-		catch (RejectedExecutionException ex) {
-			throw new TaskRejectedException(
-					"Executor [" + this.concurrentExecutor + "] did not accept task: " + task, ex);
-		}
-	}
+    /**
+     * Delegates to the specified JDK concurrent executor.
+     * @see java.util.concurrent.Executor#execute(Runnable)
+     *
+     * 执行任务
+     */
+    public void execute(Runnable task) {
+        try {
+            this.concurrentExecutor.execute(task);
+        } catch (RejectedExecutionException ex) {
+            throw new TaskRejectedException(
+                    "Executor [" + this.concurrentExecutor + "] did not accept task: " + task, ex);
+        }
+    }
 
-	public void execute(Runnable task, long startTimeout) {
-		execute(task);
-	}
+    /**
+     * 执行任务
+     *
+     * @param task the {@code Runnable} to execute (never {@code null})
+     * @param startTimeout the time duration (milliseconds) within which the task is
+     * supposed to start. This is intended as a hint to the executor, allowing for
+     * preferred handling of immediate tasks. Typical values are {@link #TIMEOUT_IMMEDIATE}
+     * or {@link #TIMEOUT_INDEFINITE} (the default as used by {@link #execute(Runnable)}).
+     */
+    public void execute(Runnable task, long startTimeout) {
+        execute(task);
+    }
 
-	public Future<?> submit(Runnable task) {
-		try {
-			if (this.concurrentExecutor instanceof ExecutorService) {
-				return ((ExecutorService) this.concurrentExecutor).submit(task);
-			}
-			else {
-				FutureTask<Object> future = new FutureTask<Object>(task, null);
-				this.concurrentExecutor.execute(future);
-				return future;
-			}
-		}
-		catch (RejectedExecutionException ex) {
-			throw new TaskRejectedException(
-					"Executor [" + this.concurrentExecutor + "] did not accept task: " + task, ex);
-		}
-	}
+    /**
+     * 提交一个任务
+     *
+     * @param task the {@code Runnable} to execute (never {@code null})
+     * @return
+     */
+    public Future<?> submit(Runnable task) {
+        try {
+            if (this.concurrentExecutor instanceof ExecutorService) {
+                return ((ExecutorService) this.concurrentExecutor).submit(task);
+            } else {
+                FutureTask<Object> future = new FutureTask<Object>(task, null);
+                this.concurrentExecutor.execute(future);
+                return future;
+            }
+        } catch (RejectedExecutionException ex) {
+            throw new TaskRejectedException(
+                    "Executor [" + this.concurrentExecutor + "] did not accept task: " + task, ex);
+        }
+    }
 
-	public <T> Future<T> submit(Callable<T> task) {
-		try {
-			if (this.concurrentExecutor instanceof ExecutorService) {
-				return ((ExecutorService) this.concurrentExecutor).submit(task);
-			}
-			else {
-				FutureTask<T> future = new FutureTask<T>(task);
-				this.concurrentExecutor.execute(future);
-				return future;
-			}
-		}
-		catch (RejectedExecutionException ex) {
-			throw new TaskRejectedException(
-					"Executor [" + this.concurrentExecutor + "] did not accept task: " + task, ex);
-		}
-	}
+    /**
+     * 提交一个任务
+     *
+     * @param task the {@code Callable} to execute (never {@code null})
+     * @param <T>
+     * @return
+     */
+    public <T> Future<T> submit(Callable<T> task) {
+        try {
+            if (this.concurrentExecutor instanceof ExecutorService) {
+                return ((ExecutorService) this.concurrentExecutor).submit(task);
+            } else {
+                FutureTask<T> future = new FutureTask<T>(task);
+                this.concurrentExecutor.execute(future);
+                return future;
+            }
+        } catch (RejectedExecutionException ex) {
+            throw new TaskRejectedException(
+                    "Executor [" + this.concurrentExecutor + "] did not accept task: " + task, ex);
+        }
+    }
 
 }

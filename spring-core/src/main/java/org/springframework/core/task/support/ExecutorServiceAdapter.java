@@ -38,50 +38,86 @@ import org.springframework.util.Assert;
  * in a Java EE 6 environment. The lifecycle is always up to the backend pool,
  * with this adapter acting as an access-only proxy for that target pool.
  *
+ * 线程池适配器
+ *
  * @author Juergen Hoeller
  * @since 3.0
  * @see java.util.concurrent.ExecutorService
  */
 public class ExecutorServiceAdapter extends AbstractExecutorService {
 
-	private final TaskExecutor taskExecutor;
+    private final TaskExecutor taskExecutor;
 
 
-	/**
-	 * Create a new ExecutorServiceAdapter, using the given target executor.
-	 * @param taskExecutor the target executor to delegate to
-	 */
-	public ExecutorServiceAdapter(TaskExecutor taskExecutor) {
-		Assert.notNull(taskExecutor, "TaskExecutor must not be null");
-		this.taskExecutor = taskExecutor;
-	}
+    /**
+     * Create a new ExecutorServiceAdapter, using the given target executor.
+     *
+     * 构造方法
+     *
+     * @param taskExecutor the target executor to delegate to
+     */
+    public ExecutorServiceAdapter(TaskExecutor taskExecutor) {
+        Assert.notNull(taskExecutor, "TaskExecutor must not be null");
+        this.taskExecutor = taskExecutor;
+    }
 
 
-	public void execute(Runnable task) {
-		this.taskExecutor.execute(task);
-	}
+    /**
+     * 执行一个任务
+     *
+     * @param task
+     */
+    public void execute(Runnable task) {
+        this.taskExecutor.execute(task);
+    }
 
-	public void shutdown() {
-		throw new IllegalStateException(
-				"Manual shutdown not supported - ExecutorServiceAdapter is dependent on an external lifecycle");
-	}
+    /**
+     * 不支持手工关闭
+     */
+    public void shutdown() {
+        throw new IllegalStateException(
+                "Manual shutdown not supported - ExecutorServiceAdapter is dependent on an external lifecycle");
+    }
 
-	public List<Runnable> shutdownNow() {
-		throw new IllegalStateException(
-				"Manual shutdown not supported - ExecutorServiceAdapter is dependent on an external lifecycle");
-	}
+    /**
+     * 不支持手工关闭
+     *
+     * @return
+     */
+    public List<Runnable> shutdownNow() {
+        throw new IllegalStateException(
+                "Manual shutdown not supported - ExecutorServiceAdapter is dependent on an external lifecycle");
+    }
 
-	public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
-		throw new IllegalStateException(
-				"Manual shutdown not supported - ExecutorServiceAdapter is dependent on an external lifecycle");
-	}
+    /**
+     * 不支持手工关闭
+     *
+     * @param timeout
+     * @param unit
+     * @return
+     * @throws InterruptedException
+     */
+    public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
+        throw new IllegalStateException(
+                "Manual shutdown not supported - ExecutorServiceAdapter is dependent on an external lifecycle");
+    }
 
-	public boolean isShutdown() {
-		return false;
-	}
+    /**
+     * 直接返回不关闭
+     *
+     * @return
+     */
+    public boolean isShutdown() {
+        return false;
+    }
 
-	public boolean isTerminated() {
-		return false;
-	}
+    /**
+     * 直接返回不中止
+     *
+     * @return
+     */
+    public boolean isTerminated() {
+        return false;
+    }
 
 }

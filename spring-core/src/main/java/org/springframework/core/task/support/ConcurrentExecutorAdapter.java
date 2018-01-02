@@ -30,6 +30,11 @@ import org.springframework.util.Assert;
  * <em>hiding</em> the TaskExecutor nature of a given object now,
  * solely exposing the standard Executor interface to a client.
  *
+ * 适配器
+ * 它原来是对Java原生的Executor类到Spring的TaskExecutor类的适配器
+ * 但是在Spring3.0中应用没有那么大
+ * 因为Spring的TaskExecutor也继承了Executor接口
+ *
  * @author Juergen Hoeller
  * @since 2.5
  * @see java.util.concurrent.Executor
@@ -37,21 +42,29 @@ import org.springframework.util.Assert;
  */
 public class ConcurrentExecutorAdapter implements Executor {
 
-	private final TaskExecutor taskExecutor;
+    private final TaskExecutor taskExecutor;
 
 
-	/**
-	 * Create a new ConcurrentExecutorAdapter for the given Spring TaskExecutor.
-	 * @param taskExecutor the Spring TaskExecutor to wrap
-	 */
-	public ConcurrentExecutorAdapter(TaskExecutor taskExecutor) {
-		Assert.notNull(taskExecutor, "TaskExecutor must not be null");
-		this.taskExecutor = taskExecutor;
-	}
+    /**
+     * Create a new ConcurrentExecutorAdapter for the given Spring TaskExecutor.
+     *
+     * 构造方法
+     *
+     * @param taskExecutor the Spring TaskExecutor to wrap
+     */
+    public ConcurrentExecutorAdapter(TaskExecutor taskExecutor) {
+        Assert.notNull(taskExecutor, "TaskExecutor must not be null");
+        this.taskExecutor = taskExecutor;
+    }
 
 
-	public void execute(Runnable command) {
-		this.taskExecutor.execute(command);
-	}
+    /**
+     * 执行
+     *
+     * @param command
+     */
+    public void execute(Runnable command) {
+        this.taskExecutor.execute(command);
+    }
 
 }
