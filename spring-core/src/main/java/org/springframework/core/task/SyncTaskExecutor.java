@@ -32,6 +32,8 @@ import org.springframework.util.Assert;
  * asynchronous execution will be preferable: choose an asynchronous
  * {@code TaskExecutor} instead for such scenarios.
  *
+ * 同步任务执行类
+ *
  * @author Juergen Hoeller
  * @since 2.0
  * @see SimpleAsyncTaskExecutor
@@ -39,14 +41,17 @@ import org.springframework.util.Assert;
 @SuppressWarnings("serial")
 public class SyncTaskExecutor implements TaskExecutor, Serializable {
 
-	/**
-	 * Executes the given {@code task} synchronously, through direct
-	 * invocation of it's {@link Runnable#run() run()} method.
-	 * @throws IllegalArgumentException if the given {@code task} is {@code null}
-	 */
-	public void execute(Runnable task) {
-		Assert.notNull(task, "Runnable must not be null");
-		task.run();
-	}
+    /**
+     * Executes the given {@code task} synchronously, through direct
+     * invocation of it's {@link Runnable#run() run()} method.
+     *
+     * 执行任务
+     *
+     * @throws IllegalArgumentException if the given {@code task} is {@code null}
+     */
+    public void execute(Runnable task) {
+        Assert.notNull(task, "Runnable must not be null");
+        task.run();
+    }
 
 }

@@ -32,7 +32,8 @@ import java.util.concurrent.Executor;
  * mainly for backwards compatibility with JDK 1.4 in Spring 2.x.
  *
  * 任务执行
- *
+ * 它从标准的Executor扩展而来
+ * 而且它向前兼容JDK1.4和Spring2.x
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -40,14 +41,17 @@ import java.util.concurrent.Executor;
  */
 public interface TaskExecutor extends Executor {
 
-	/**
-	 * Execute the given {@code task}.
-	 * <p>The call might return immediately if the implementation uses
-	 * an asynchronous execution strategy, or might block in the case
-	 * of synchronous execution.
-	 * @param task the {@code Runnable} to execute (never {@code null})
-	 * @throws TaskRejectedException if the given task was not accepted
-	 */
-	void execute(Runnable task);
+    /**
+     * Execute the given {@code task}.
+     * <p>The call might return immediately if the implementation uses
+     * an asynchronous execution strategy, or might block in the case
+     * of synchronous execution.
+     *
+     * 执行给定的任务
+     *
+     * @param task the {@code Runnable} to execute (never {@code null})
+     * @throws TaskRejectedException if the given task was not accepted
+     */
+    void execute(Runnable task);
 
 }
