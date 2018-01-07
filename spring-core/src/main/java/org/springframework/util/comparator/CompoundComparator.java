@@ -87,20 +87,25 @@ public class CompoundComparator<T> implements Comparator<T>, Serializable {
      * Add a Comparator to the end of the chain.
      * <p>The Comparator will default to ascending sort order,
      * unless it is a InvertibleComparator.
+     *
+     * 添加一个比较器
+     *
      * @param comparator the Comparator to add to the end of the chain
      * @see InvertibleComparator
      */
     public void addComparator(Comparator<T> comparator) {
         if (comparator instanceof InvertibleComparator) {
             this.comparators.add((InvertibleComparator<T>) comparator);
-        }
-        else {
+        } else {
             this.comparators.add(new InvertibleComparator<T>(comparator));
         }
     }
 
     /**
      * Add a Comparator to the end of the chain using the provided sort order.
+     *
+     * 添加一个指定顺序的比较器
+     *
      * @param comparator the Comparator to add to the end of the chain
      * @param ascending the sort order: ascending (true) or descending (false)
      */
@@ -112,6 +117,9 @@ public class CompoundComparator<T> implements Comparator<T>, Serializable {
      * Replace the Comparator at the given index.
      * <p>The Comparator will default to ascending sort order,
      * unless it is a InvertibleComparator.
+     *
+     * 设置对应位置的比较器
+     *
      * @param index the index of the Comparator to replace
      * @param comparator the Comparator to place at the given index
      * @see InvertibleComparator
@@ -126,6 +134,9 @@ public class CompoundComparator<T> implements Comparator<T>, Serializable {
 
     /**
      * Replace the Comparator at the given index using the given sort order.
+     *
+     * 设置比较器
+     *
      * @param index the index of the Comparator to replace
      * @param comparator the Comparator to place at the given index
      * @param ascending the sort order: ascending (true) or descending (false)
@@ -137,6 +148,9 @@ public class CompoundComparator<T> implements Comparator<T>, Serializable {
     /**
      * Invert the sort order of each sort definition contained by this compound
      * comparator.
+     *
+     * 反转比较器
+     * 它是反转所有比较器的方向
      */
     public void invertOrder() {
         for (InvertibleComparator<T> comparator : this.comparators) {
@@ -146,6 +160,9 @@ public class CompoundComparator<T> implements Comparator<T>, Serializable {
 
     /**
      * Invert the sort order of the sort definition at the specified index.
+     *
+     * 反转指定位置的比较器
+     *
      * @param index the index of the comparator to invert
      */
     public void invertOrder(int index) {
@@ -154,6 +171,9 @@ public class CompoundComparator<T> implements Comparator<T>, Serializable {
 
     /**
      * Change the sort order at the given index to ascending.
+     *
+     * 设置指定位置的比较器的方向为升序
+     *
      * @param index the index of the comparator to change
      */
     public void setAscendingOrder(int index) {
@@ -163,6 +183,7 @@ public class CompoundComparator<T> implements Comparator<T>, Serializable {
     /**
      * Change the sort order at the given index to descending sort.
      *
+     * 设置指定位置的比较器的方向为降序
      *
      * @param index the index of the comparator to change
      */
