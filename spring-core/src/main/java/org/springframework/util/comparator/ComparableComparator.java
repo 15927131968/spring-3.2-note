@@ -23,17 +23,20 @@ import java.util.Comparator;
  * Mainly for internal use in other Comparators, when supposed
  * to work on Comparables.
  *
+ * 一个适配器类
+ * 它多用于其他比较器的内部使用
+ *
  * @author Keith Donald
  * @since 1.2.2
  * @see Comparable
  */
 public class ComparableComparator<T extends Comparable<T>> implements Comparator<T> {
 
-	@SuppressWarnings("rawtypes")
-	public static final ComparableComparator INSTANCE = new ComparableComparator();
+    @SuppressWarnings("rawtypes")
+    public static final ComparableComparator INSTANCE = new ComparableComparator();
 
-	public int compare(T o1, T o2) {
-		return o1.compareTo(o2);
-	}
+    public int compare(T o1, T o2) {
+        return o1.compareTo(o2);
+    }
 
 }

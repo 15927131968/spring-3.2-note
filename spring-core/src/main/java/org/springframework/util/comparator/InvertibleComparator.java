@@ -26,6 +26,8 @@ import org.springframework.util.Assert;
  * whether comparison results should be treated in forward (standard
  * ascending) order or flipped for reverse (descending) order.
  *
+ * 可颠倒的比较器
+ *
  * @author Keith Donald
  * @author Juergen Hoeller
  * @since 1.2.2
@@ -33,95 +35,137 @@ import org.springframework.util.Assert;
 @SuppressWarnings("serial")
 public class InvertibleComparator<T> implements Comparator<T>, Serializable {
 
-	private final Comparator<T> comparator;
+    /**
+     * 比较器
+     */
+    private final Comparator<T> comparator;
 
-	private boolean ascending = true;
-
-
-	/**
-	 * Create an InvertibleComparator that sorts ascending by default.
-	 * For the actual comparison, the specified Comparator will be used.
-	 * @param comparator the comparator to decorate
-	 */
-	public InvertibleComparator(Comparator<T> comparator) {
-		Assert.notNull(comparator, "Comparator must not be null");
-		this.comparator = comparator;
-	}
-
-	/**
-	 * Create an InvertibleComparator that sorts based on the provided order.
-	 * For the actual comparison, the specified Comparator will be used.
-	 * @param comparator the comparator to decorate
-	 * @param ascending the sort order: ascending (true) or descending (false)
-	 */
-	public InvertibleComparator(Comparator<T> comparator, boolean ascending) {
-		Assert.notNull(comparator, "Comparator must not be null");
-		this.comparator = comparator;
-		setAscending(ascending);
-	}
+    /**
+     * 是否为升序
+     */
+    private boolean ascending = true;
 
 
-	/**
-	 * Specify the sort order: ascending (true) or descending (false).
-	 */
-	public void setAscending(boolean ascending) {
-		this.ascending = ascending;
-	}
+    /**
+     * Create an InvertibleComparator that sorts ascending by default.
+     * For the actual comparison, the specified Comparator will be used.
+     *
+     * 构造方法
+     *
+     * @param comparator the comparator to decorate
+     */
+    public InvertibleComparator(Comparator<T> comparator) {
+        Assert.notNull(comparator, "Comparator must not be null");
+        this.comparator = comparator;
+    }
 
-	/**
-	 * Return the sort order: ascending (true) or descending (false).
-	 */
-	public boolean isAscending() {
-		return this.ascending;
-	}
+    /**
+     * Create an InvertibleComparator that sorts based on the provided order.
+     * For the actual comparison, the specified Comparator will be used.
+     *
+     * 构造方法
+     * 可以设置为是否为升序
+     *
+     * @param comparator the comparator to decorate
+     * @param ascending the sort order: ascending (true) or descending (false)
+     */
+    public InvertibleComparator(Comparator<T> comparator, boolean ascending) {
+        Assert.notNull(comparator, "Comparator must not be null");
+        this.comparator = comparator;
+        setAscending(ascending);
+    }
 
-	/**
-	 * Invert the sort order: ascending -> descending or
-	 * descending -> ascending.
-	 */
-	public void invertOrder() {
-		this.ascending = !this.ascending;
-	}
+
+    /**
+     * Specify the sort order: ascending (true) or descending (false).
+     *
+     * 设置是否升序
+     */
+    public void setAscending(boolean ascending) {
+        this.ascending = ascending;
+    }
+
+    /**
+     * Return the sort order: ascending (true) or descending (false).
+     *
+     * 获取是否升序
+     */
+    public boolean isAscending() {
+        return this.ascending;
+    }
+
+    /**
+     * Invert the sort order: ascending -> descending or
+     * descending -> ascending.
+     *
+     * 反转顺序
+     */
+    public void invertOrder() {
+        this.ascending = !this.ascending;
+    }
 
 
-	public int compare(T o1, T o2) {
-		int result = this.comparator.compare(o1, o2);
-		if (result != 0) {
-			// Invert the order if it is a reverse sort.
-			if (!this.ascending) {
-				if (Integer.MIN_VALUE == result) {
-					result = Integer.MAX_VALUE;
-				}
-				else {
-					result *= -1;
-				}
-			}
-			return result;
-		}
-		return 0;
-	}
+    /**
+     * 比较
+     * 这里要注意升序还是降序
+     *
+     * @param o1
+     * @param o2
+     * @return
+     */
+    public int compare(T o1, T o2) {
+        int result = this.comparator.compare(o1, o2);
+        if (result != 0) {
+            // Invert the order if it is a reverse sort.
+            if (!this.ascending) {
+                if (Integer.MIN_VALUE == result) {
+                    result = Integer.MAX_VALUE;
+                } else {
+                    result *= -1;
+                }
+            }
+            return result;
+        }
+        return 0;
+    }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof InvertibleComparator)) {
-			return false;
-		}
-		InvertibleComparator<T> other = (InvertibleComparator<T>) obj;
-		return (this.comparator.equals(other.comparator) && this.ascending == other.ascending);
-	}
+    /**
+     * 判断是否相等
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof InvertibleComparator)) {
+            return false;
+        }
+        InvertibleComparator<T> other = (InvertibleComparator<T>) obj;
+        return (this.comparator.equals(other.comparator) && this.ascending == other.ascending);
+    }
 
-	@Override
-	public int hashCode() {
-		return this.comparator.hashCode();
-	}
+    /**
+     * 哈希值
+     *
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        return this.comparator.hashCode();
+    }
 
-	@Override
-	public String toString() {
-		return "InvertibleComparator: [" + this.comparator + "]; ascending=" + this.ascending;
-	}
+    /**
+     * 获取字符串形式
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "InvertibleComparator: [" + this.comparator + "]; ascending=" + this.ascending;
+    }
 
 }

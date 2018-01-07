@@ -30,6 +30,10 @@ import org.springframework.util.Assert;
  * {@code 0}. Consider combining with a {@link CompoundComparator} if additional sorting
  * is required.
  *
+ * 实例比较器
+ * 比如设置的顺序中，有Cat和Dog两个类的实例，那么在比较的时候，可能所有的cat类的实例都比dog类的实例要小
+ * 这个是有实际意义的，它可以让某一类bean比其他bean的优先级更高
+ *
  * @author Phillip Webb
  * @since 3.2
  * @param <T> the type of objects being compared
@@ -37,35 +41,54 @@ import org.springframework.util.Assert;
  */
 public class InstanceComparator<T> implements Comparator<T> {
 
-	private final Class<?>[] instanceOrder;
+    /**
+     * 实例列表
+     */
+    private final Class<?>[] instanceOrder;
 
 
-	/**
-	 * Create a new {@link InstanceComparator} instance.
-	 * @param instanceOrder the ordered list of classes that should be used when comparing
-	 * objects. Classes earlier in the list will be be given a higher priority.
-	 */
-	public InstanceComparator(Class<?>... instanceOrder) {
-		Assert.notNull(instanceOrder, "'instanceOrder' must not be null");
-		this.instanceOrder = instanceOrder;
-	}
+    /**
+     * Create a new {@link InstanceComparator} instance.
+     *
+     * 构造方法
+     *
+     * @param instanceOrder the ordered list of classes that should be used when comparing
+     * objects. Classes earlier in the list will be be given a higher priority.
+     */
+    public InstanceComparator(Class<?>... instanceOrder) {
+        Assert.notNull(instanceOrder, "'instanceOrder' must not be null");
+        this.instanceOrder = instanceOrder;
+    }
 
 
-	public int compare(T o1, T o2) {
-		int i1 = getOrder(o1);
-		int i2 = getOrder(o2);
-		return (i1 < i2 ? -1 : (i1 == i2 ? 0 : 1));
-	}
+    /**
+     * 比较方法
+     *
+     * @param o1
+     * @param o2
+     * @return
+     */
+    public int compare(T o1, T o2) {
+        int i1 = getOrder(o1);
+        int i2 = getOrder(o2);
+        return (i1 < i2 ? -1 : (i1 == i2 ? 0 : 1));
+    }
 
-	private int getOrder(T object) {
-		if (object != null) {
-			for (int i = 0; i < this.instanceOrder.length; i++) {
-				if (this.instanceOrder[i].isInstance(object)) {
-					return i;
-				}
-			}
-		}
-		return this.instanceOrder.length;
-	}
+    /**
+     * 获取顺序
+     *
+     * @param object
+     * @return
+     */
+    private int getOrder(T object) {
+        if (object != null) {
+            for (int i = 0; i < this.instanceOrder.length; i++) {
+                if (this.instanceOrder[i].isInstance(object)) {
+                    return i;
+                }
+            }
+        }
+        return this.instanceOrder.length;
+    }
 
 }
