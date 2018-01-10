@@ -135,7 +135,7 @@ public interface AnnotationMetadata extends ClassMetadata {
      * return {@code true} for the given annotation type.
      *
      * 获取被某类注解修饰的方法的集合
-     * 
+     *
      * @param annotationType the annotation type to look for
      * @return a Set of {@link MethodMetadata} for methods that have a matching
      * annotation. The return value will be an empty set if no methods match
