@@ -28,6 +28,8 @@ import org.springframework.util.Assert;
  * {@link MethodMetadata} implementation that uses standard reflection
  * to introspect a given {@code Method}.
  *
+ * 标准的方法元信息实现类
+ *
  * @author Juergen Hoeller
  * @author Mark Pollack
  * @author Chris Beams
@@ -35,94 +37,145 @@ import org.springframework.util.Assert;
  */
 public class StandardMethodMetadata implements MethodMetadata {
 
-	private final Method introspectedMethod;
+    /**
+     * 内省的方法
+     */
+    private final Method introspectedMethod;
 
-	private final boolean nestedAnnotationsAsMap;
-
-
-	/**
-	 * Create a new StandardMethodMetadata wrapper for the given Method.
-	 * @param introspectedMethod the Method to introspect
-	 */
-	public StandardMethodMetadata(Method introspectedMethod) {
-		this(introspectedMethod, false);
-	}
-
-	/**
-	 * Create a new StandardMethodMetadata wrapper for the given Method,
-	 * providing the option to return any nested annotations or annotation arrays in the
-	 * form of {@link org.springframework.core.annotation.AnnotationAttributes} instead
-	 * of actual {@link java.lang.annotation.Annotation} instances.
-	 * @param introspectedMethod the Method to introspect
-	 * @param nestedAnnotationsAsMap return nested annotations and annotation arrays as
-	 * {@link org.springframework.core.annotation.AnnotationAttributes} for compatibility
-	 * with ASM-based {@link AnnotationMetadata} implementations
-	 * @since 3.1.1
-	 */
-	public StandardMethodMetadata(Method introspectedMethod, boolean nestedAnnotationsAsMap) {
-		Assert.notNull(introspectedMethod, "Method must not be null");
-		this.introspectedMethod = introspectedMethod;
-		this.nestedAnnotationsAsMap = nestedAnnotationsAsMap;
-	}
-
-	/**
-	 * Return the underlying Method.
-	 */
-	public final Method getIntrospectedMethod() {
-		return this.introspectedMethod;
-	}
+    /**
+     * 嵌套的注解
+     */
+    private final boolean nestedAnnotationsAsMap;
 
 
-	public String getMethodName() {
-		return this.introspectedMethod.getName();
-	}
+    /**
+     * Create a new StandardMethodMetadata wrapper for the given Method.
+     *
+     * 构造方法
+     *
+     * @param introspectedMethod the Method to introspect
+     */
+    public StandardMethodMetadata(Method introspectedMethod) {
+        this(introspectedMethod, false);
+    }
 
-	public String getDeclaringClassName() {
-		return this.introspectedMethod.getDeclaringClass().getName();
-	}
+    /**
+     * Create a new StandardMethodMetadata wrapper for the given Method,
+     * providing the option to return any nested annotations or annotation arrays in the
+     * form of {@link org.springframework.core.annotation.AnnotationAttributes} instead
+     * of actual {@link java.lang.annotation.Annotation} instances.
+     *
+     * 构造方法
+     *
+     * @param introspectedMethod the Method to introspect
+     * @param nestedAnnotationsAsMap return nested annotations and annotation arrays as
+     * {@link org.springframework.core.annotation.AnnotationAttributes} for compatibility
+     * with ASM-based {@link AnnotationMetadata} implementations
+     * @since 3.1.1
+     */
+    public StandardMethodMetadata(Method introspectedMethod, boolean nestedAnnotationsAsMap) {
+        Assert.notNull(introspectedMethod, "Method must not be null");
+        this.introspectedMethod = introspectedMethod;
+        this.nestedAnnotationsAsMap = nestedAnnotationsAsMap;
+    }
 
-	public boolean isStatic() {
-		return Modifier.isStatic(this.introspectedMethod.getModifiers());
-	}
+    /**
+     * Return the underlying Method.
+     *
+     * 返回内省方法
+     */
+    public final Method getIntrospectedMethod() {
+        return this.introspectedMethod;
+    }
 
-	public boolean isFinal() {
-		return Modifier.isFinal(this.introspectedMethod.getModifiers());
-	}
 
-	public boolean isOverridable() {
-		return (!isStatic() && !isFinal() && !Modifier.isPrivate(this.introspectedMethod.getModifiers()));
-	}
+    /**
+     * 返回方法名
+     *
+     * @return
+     */
+    public String getMethodName() {
+        return this.introspectedMethod.getName();
+    }
 
-	public boolean isAnnotated(String annotationType) {
-		Annotation[] anns = this.introspectedMethod.getAnnotations();
-		for (Annotation ann : anns) {
-			if (ann.annotationType().getName().equals(annotationType)) {
-				return true;
-			}
-			for (Annotation metaAnn : ann.annotationType().getAnnotations()) {
-				if (metaAnn.annotationType().getName().equals(annotationType)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+    /**
+     * 返回声明的类名
+     *
+     * @return
+     */
+    public String getDeclaringClassName() {
+        return this.introspectedMethod.getDeclaringClass().getName();
+    }
 
-	public Map<String, Object> getAnnotationAttributes(String annotationType) {
-		Annotation[] anns = this.introspectedMethod.getAnnotations();
-		for (Annotation ann : anns) {
-			if (ann.annotationType().getName().equals(annotationType)) {
-				return AnnotationUtils.getAnnotationAttributes(
-						ann, true, nestedAnnotationsAsMap);
-			}
-			for (Annotation metaAnn : ann.annotationType().getAnnotations()) {
-				if (metaAnn.annotationType().getName().equals(annotationType)) {
-					return AnnotationUtils.getAnnotationAttributes(
-							metaAnn, true, this.nestedAnnotationsAsMap);
-				}
-			}
-		}
-		return null;
-	}
+    /**
+     * 是否是静态方法
+     *
+     * @return
+     */
+    public boolean isStatic() {
+        return Modifier.isStatic(this.introspectedMethod.getModifiers());
+    }
+
+    /**
+     * 是否是final方法
+     *
+     * @return
+     */
+    public boolean isFinal() {
+        return Modifier.isFinal(this.introspectedMethod.getModifiers());
+    }
+
+    /**
+     * 是否可以被重写
+     *
+     * @return
+     */
+    public boolean isOverridable() {
+        return (!isStatic() && !isFinal() && !Modifier.isPrivate(this.introspectedMethod.getModifiers()));
+    }
+
+    /**
+     * 是否具有某个注解
+     *
+     * @param annotationType the annotation type to look for
+     * @return
+     */
+    public boolean isAnnotated(String annotationType) {
+        Annotation[] anns = this.introspectedMethod.getAnnotations();
+        for (Annotation ann : anns) {
+            if (ann.annotationType().getName().equals(annotationType)) {
+                return true;
+            }
+            for (Annotation metaAnn : ann.annotationType().getAnnotations()) {
+                if (metaAnn.annotationType().getName().equals(annotationType)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 获取某个注解的键值映射
+     *
+     * @param annotationType the annotation type to look for
+     * @return
+     */
+    public Map<String, Object> getAnnotationAttributes(String annotationType) {
+        Annotation[] anns = this.introspectedMethod.getAnnotations();
+        for (Annotation ann : anns) {
+            if (ann.annotationType().getName().equals(annotationType)) {
+                return AnnotationUtils.getAnnotationAttributes(
+                        ann, true, nestedAnnotationsAsMap);
+            }
+            for (Annotation metaAnn : ann.annotationType().getAnnotations()) {
+                if (metaAnn.annotationType().getName().equals(annotationType)) {
+                    return AnnotationUtils.getAnnotationAttributes(
+                            metaAnn, true, this.nestedAnnotationsAsMap);
+                }
+            }
+        }
+        return null;
+    }
 
 }
