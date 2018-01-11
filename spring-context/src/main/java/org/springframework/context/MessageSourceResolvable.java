@@ -22,6 +22,8 @@ package org.springframework.context;
  *
  * <p>Spring's own validation error classes implement this interface.
  *
+ * 消息源解析器
+ *
  * @author Juergen Hoeller
  * @see MessageSource#getMessage(MessageSourceResolvable, java.util.Locale)
  * @see org.springframework.validation.ObjectError
@@ -29,25 +31,34 @@ package org.springframework.context;
  */
 public interface MessageSourceResolvable {
 
-	/**
-	 * Return the codes to be used to resolve this message, in the order that
-	 * they should get tried. The last code will therefore be the default one.
-	 * @return a String array of codes which are associated with this message
-	 */
-	String[] getCodes();
+    /**
+     * Return the codes to be used to resolve this message, in the order that
+     * they should get tried. The last code will therefore be the default one.
+     *
+     * 获取code
+     *
+     * @return a String array of codes which are associated with this message
+     */
+    String[] getCodes();
 
-	/**
-	 * Return the array of arguments to be used to resolve this message.
-	 * @return an array of objects to be used as parameters to replace
-	 * placeholders within the message text
-	 * @see java.text.MessageFormat
-	 */
-	Object[] getArguments();
+    /**
+     * Return the array of arguments to be used to resolve this message.
+     *
+     * 获取参数
+     *
+     * @return an array of objects to be used as parameters to replace
+     * placeholders within the message text
+     * @see java.text.MessageFormat
+     */
+    Object[] getArguments();
 
-	/**
-	 * Return the default message to be used to resolve this message.
-	 * @return the default message, or {@code null} if no default
-	 */
-	String getDefaultMessage();
+    /**
+     * Return the default message to be used to resolve this message.
+     *
+     * 获取默认消息
+     *
+     * @return the default message, or {@code null} if no default
+     */
+    String getDefaultMessage();
 
 }

@@ -33,11 +33,11 @@ package org.springframework.context;
  */
 public interface Phased {
 
-	/**
-	 * Return the phase value of this object.
+    /**
+     * Return the phase value of this object.
      *
      * 获取当前阶段代表的值
-	 */
-	int getPhase();
+     */
+    int getPhase();
 
 }
