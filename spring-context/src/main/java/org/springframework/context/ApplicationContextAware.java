@@ -47,6 +47,14 @@ import org.springframework.beans.factory.Aware;
  * <p>For a list of all bean lifecycle methods, see the
  * {@link org.springframework.beans.factory.BeanFactory BeanFactory javadocs}.
  *
+ * 应用上下文感知器
+ * 它能够感知到它运行在的应用上下文
+ *
+ * 如果一个对象需要访问文件资源，比如:
+ * 1).调用getResource -> ResourceLoaderAware
+ * 2).发布一个应用程序事件 -> ApplicationEventPublishAware
+ * 3).访问MessageSource -> MessageSourceAware
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Chris Beams
@@ -58,19 +66,25 @@ import org.springframework.beans.factory.Aware;
  */
 public interface ApplicationContextAware extends Aware {
 
-	/**
-	 * Set the ApplicationContext that this object runs in.
-	 * Normally this call will be used to initialize the object.
-	 * <p>Invoked after population of normal bean properties but before an init callback such
-	 * as {@link org.springframework.beans.factory.InitializingBean#afterPropertiesSet()}
-	 * or a custom init-method. Invoked after {@link ResourceLoaderAware#setResourceLoader},
-	 * {@link ApplicationEventPublisherAware#setApplicationEventPublisher} and
-	 * {@link MessageSourceAware}, if applicable.
-	 * @param applicationContext the ApplicationContext object to be used by this object
-	 * @throws ApplicationContextException in case of context initialization errors
-	 * @throws BeansException if thrown by application context methods
-	 * @see org.springframework.beans.factory.BeanInitializationException
-	 */
-	void setApplicationContext(ApplicationContext applicationContext) throws BeansException;
+    /**
+     * Set the ApplicationContext that this object runs in.
+     * Normally this call will be used to initialize the object.
+     * <p>Invoked after population of normal bean properties but before an init callback such
+     * as {@link org.springframework.beans.factory.InitializingBean#afterPropertiesSet()}
+     * or a custom init-method. Invoked after {@link ResourceLoaderAware#setResourceLoader},
+     * {@link ApplicationEventPublisherAware#setApplicationEventPublisher} and
+     * {@link MessageSourceAware}, if applicable.
+     *
+     * 设置应用程序上下文
+     * 通常这个调用会被用来初始化对象
+     * 在bean执行初始化方法之前调用
+     *
+     *
+     * @param applicationContext the ApplicationContext object to be used by this object
+     * @throws ApplicationContextException in case of context initialization errors
+     * @throws BeansException if thrown by application context methods
+     * @see org.springframework.beans.factory.BeanInitializationException
+     */
+    void setApplicationContext(ApplicationContext applicationContext) throws BeansException;
 
 }

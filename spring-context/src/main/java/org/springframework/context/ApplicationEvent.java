@@ -31,31 +31,36 @@ import java.util.EventObject;
  */
 public abstract class ApplicationEvent extends EventObject {
 
-	/** use serialVersionUID from Spring 1.2 for interoperability */
-	private static final long serialVersionUID = 7099057708183571937L;
+    /** use serialVersionUID from Spring 1.2 for interoperability */
+    private static final long serialVersionUID = 7099057708183571937L;
 
-	/**
-	 * System time when the event happened
-	 * 事件发生时的系统时间
-	 */
-	private final long timestamp;
-
-
-	/**
-	 * Create a new ApplicationEvent.
-	 * @param source the component that published the event (never {@code null})
-	 */
-	public ApplicationEvent(Object source) {
-		super(source);
-		this.timestamp = System.currentTimeMillis();
-	}
+    /**
+     * System time when the event happened
+     * 事件发生时的系统时间
+     */
+    private final long timestamp;
 
 
-	/**
-	 * Return the system time in milliseconds when the event happened.
-	 */
-	public final long getTimestamp() {
-		return this.timestamp;
-	}
+    /**
+     * Create a new ApplicationEvent.
+     *
+     * 构造方法
+     *
+     * @param source the component that published the event (never {@code null})
+     */
+    public ApplicationEvent(Object source) {
+        super(source);
+        this.timestamp = System.currentTimeMillis();
+    }
+
+
+    /**
+     * Return the system time in milliseconds when the event happened.
+     *
+     * 获取时间发生时的时间戳
+     */
+    public final long getTimestamp() {
+        return this.timestamp;
+    }
 
 }

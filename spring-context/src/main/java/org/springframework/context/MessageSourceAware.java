@@ -26,6 +26,8 @@ import org.springframework.beans.factory.Aware;
  * reference (to arbitrary bean properties or constructor arguments), because
  * it is defined as bean with name "messageSource" in the application context.
  *
+ * 消息源感知器
+ *
  * @author Juergen Hoeller
  * @author Chris Beams
  * @since 1.1.1
@@ -33,13 +35,16 @@ import org.springframework.beans.factory.Aware;
  */
 public interface MessageSourceAware extends Aware {
 
-	/**
-	 * Set the MessageSource that this object runs in.
-	 * <p>Invoked after population of normal bean properties but before an init
-	 * callback like InitializingBean's afterPropertiesSet or a custom init-method.
-	 * Invoked before ApplicationContextAware's setApplicationContext.
-	 * @param messageSource message sourceto be used by this object
-	 */
-	void setMessageSource(MessageSource messageSource);
+    /**
+     * Set the MessageSource that this object runs in.
+     * <p>Invoked after population of normal bean properties but before an init
+     * callback like InitializingBean's afterPropertiesSet or a custom init-method.
+     * Invoked before ApplicationContextAware's setApplicationContext.
+     *
+     * 设置消息源
+     *
+     * @param messageSource message sourceto be used by this object
+     */
+    void setMessageSource(MessageSource messageSource);
 
 }

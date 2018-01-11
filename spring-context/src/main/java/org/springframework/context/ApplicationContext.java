@@ -48,6 +48,9 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  * {@link ApplicationContextAware} beans as well as {@link ResourceLoaderAware},
  * {@link ApplicationEventPublisherAware} and {@link MessageSourceAware} beans.
  *
+ *
+ * 应用上下文
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see ConfigurableApplicationContext
@@ -55,65 +58,75 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  * @see org.springframework.core.io.ResourceLoader
  */
 public interface ApplicationContext extends EnvironmentCapable, ListableBeanFactory, HierarchicalBeanFactory,
-		MessageSource, ApplicationEventPublisher, ResourcePatternResolver {
+        MessageSource, ApplicationEventPublisher, ResourcePatternResolver {
 
-	/**
-	 * Return the unique id of this application context.
-	 *
-	 * 返回当前应用上下文的唯一的ID
-	 *
-	 * @return the unique id of the context, or {@code null} if none
-	 */
-	String getId();
+    /**
+     * Return the unique id of this application context.
+     *
+     * 返回当前应用上下文的唯一的ID
+     *
+     * @return the unique id of the context, or {@code null} if none
+     */
+    String getId();
 
-	/**
-	 * Return a name for the deployed application that this context belongs to.
-	 *
-	 * 返回部署的应用的上下文所属的名称
-	 *
-	 * @return a name for the deployed application, or the empty String by default
-	 */
-	String getApplicationName();
+    /**
+     * Return a name for the deployed application that this context belongs to.
+     *
+     * 返回部署的应用的上下文所属的名称
+     *
+     * @return a name for the deployed application, or the empty String by default
+     */
+    String getApplicationName();
 
-	/**
-	 * Return a friendly name for this context.
-	 *
-	 * 返回当前上下文的一个友好的名称
-	 *
-	 * @return a display name for this context (never {@code null})
-	 */
-	String getDisplayName();
+    /**
+     * Return a friendly name for this context.
+     *
+     * 返回当前上下文的一个友好的名称
+     *
+     * @return a display name for this context (never {@code null})
+     */
+    String getDisplayName();
 
-	/**
-	 * Return the timestamp when this context was first loaded.
-	 * @return the timestamp (ms) when this context was first loaded
-	 */
-	long getStartupDate();
+    /**
+     * Return the timestamp when this context was first loaded.
+     *
+     * 返回启动时间
+     *
+     * @return the timestamp (ms) when this context was first loaded
+     */
+    long getStartupDate();
 
-	/**
-	 * Return the parent context, or {@code null} if there is no parent
-	 * and this is the root of the context hierarchy.
-	 * @return the parent context, or {@code null} if there is no parent
-	 */
-	ApplicationContext getParent();
+    /**
+     * Return the parent context, or {@code null} if there is no parent
+     * and this is the root of the context hierarchy.
+     *
+     * 获取父上下文
+     * 如果它是根上下文的话，那么会返回null
+     *
+     * @return the parent context, or {@code null} if there is no parent
+     */
+    ApplicationContext getParent();
 
-	/**
-	 * Expose AutowireCapableBeanFactory functionality for this context.
-	 * <p>This is not typically used by application code, except for the purpose
-	 * of initializing bean instances that live outside the application context,
-	 * applying the Spring bean lifecycle (fully or partly) to them.
-	 * <p>Alternatively, the internal BeanFactory exposed by the
-	 * {@link ConfigurableApplicationContext} interface offers access to the
-	 * AutowireCapableBeanFactory interface too. The present method mainly
-	 * serves as convenient, specific facility on the ApplicationContext
-	 * interface itself.
-	 * @return the AutowireCapableBeanFactory for this context
-	 * @throws IllegalStateException if the context does not support
-	 * the AutowireCapableBeanFactory interface or does not hold an autowire-capable
-	 * bean factory yet (usually if {@code refresh()} has never been called)
-	 * @see ConfigurableApplicationContext#refresh()
-	 * @see ConfigurableApplicationContext#getBeanFactory()
-	 */
-	AutowireCapableBeanFactory getAutowireCapableBeanFactory() throws IllegalStateException;
+    /**
+     * Expose AutowireCapableBeanFactory functionality for this context.
+     * <p>This is not typically used by application code, except for the purpose
+     * of initializing bean instances that live outside the application context,
+     * applying the Spring bean lifecycle (fully or partly) to them.
+     * <p>Alternatively, the internal BeanFactory exposed by the
+     * {@link ConfigurableApplicationContext} interface offers access to the
+     * AutowireCapableBeanFactory interface too. The present method mainly
+     * serves as convenient, specific facility on the ApplicationContext
+     * interface itself.
+     *
+     * 自动装配的Bean工厂
+     *
+     * @return the AutowireCapableBeanFactory for this context
+     * @throws IllegalStateException if the context does not support
+     * the AutowireCapableBeanFactory interface or does not hold an autowire-capable
+     * bean factory yet (usually if {@code refresh()} has never been called)
+     * @see ConfigurableApplicationContext#refresh()
+     * @see ConfigurableApplicationContext#getBeanFactory()
+     */
+    AutowireCapableBeanFactory getAutowireCapableBeanFactory() throws IllegalStateException;
 
 }

@@ -31,6 +31,8 @@ package org.springframework.context;
  * implemented or if the @{@link org.springframework.core.annotation.Order Order}
  * annotation is present and to sort instances accordingly if so prior to invocation.
  *
+ * 应用程序上下文初始化
+ *
  * @author Chris Beams
  * @since 3.1
  * @see org.springframework.web.context.ContextLoader#customizeContext
@@ -40,10 +42,13 @@ package org.springframework.context;
  */
 public interface ApplicationContextInitializer<C extends ConfigurableApplicationContext> {
 
-	/**
-	 * Initialize the given application context.
-	 * @param applicationContext the application to configure
-	 */
-	void initialize(C applicationContext);
+    /**
+     * Initialize the given application context.
+     *
+     * 初始化应用程序上下文
+     *
+     * @param applicationContext the application to configure
+     */
+    void initialize(C applicationContext);
 
 }

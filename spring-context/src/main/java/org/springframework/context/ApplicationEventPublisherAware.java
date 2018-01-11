@@ -23,6 +23,8 @@ import org.springframework.beans.factory.Aware;
  * of the ApplicationEventPublisher (typically the ApplicationContext)
  * that it runs in.
  *
+ * 应用事件发布类感知器
+ *
  * @author Juergen Hoeller
  * @author Chris Beams
  * @since 1.1.1
@@ -30,13 +32,16 @@ import org.springframework.beans.factory.Aware;
  */
 public interface ApplicationEventPublisherAware extends Aware {
 
-	/**
-	 * Set the ApplicationEventPublisher that this object runs in.
-	 * <p>Invoked after population of normal bean properties but before an init
-	 * callback like InitializingBean's afterPropertiesSet or a custom init-method.
-	 * Invoked before ApplicationContextAware's setApplicationContext.
-	 * @param applicationEventPublisher event publisher to be used by this object
-	 */
-	void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher);
+    /**
+     * Set the ApplicationEventPublisher that this object runs in.
+     * <p>Invoked after population of normal bean properties but before an init
+     * callback like InitializingBean's afterPropertiesSet or a custom init-method.
+     * Invoked before ApplicationContextAware's setApplicationContext.
+     *
+     * 设置应用事件发布类
+     *
+     * @param applicationEventPublisher event publisher to be used by this object
+     */
+    void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher);
 
 }
