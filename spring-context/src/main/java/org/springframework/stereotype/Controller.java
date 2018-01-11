@@ -30,6 +30,9 @@ import java.lang.annotation.Target;
  * It is typically used in combination with annotated handler methods based on the
  * {@link org.springframework.web.bind.annotation.RequestMapping} annotation.
  *
+ * 控制器
+ * 它通常和RequestMapping注解一起使用
+ *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
  * @since 2.5
@@ -43,11 +46,14 @@ import java.lang.annotation.Target;
 @Component
 public @interface Controller {
 
-	/**
-	 * The value may indicate a suggestion for a logical component name,
-	 * to be turned into a Spring bean in case of an autodetected component.
-	 * @return the suggested component name, if any
-	 */
-	String value() default "";
+    /**
+     * The value may indicate a suggestion for a logical component name,
+     * to be turned into a Spring bean in case of an autodetected component.
+     *
+     * 组件名
+     *
+     * @return the suggested component name, if any
+     */
+    String value() default "";
 
 }

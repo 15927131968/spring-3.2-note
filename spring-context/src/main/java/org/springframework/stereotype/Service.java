@@ -34,6 +34,9 @@ import java.lang.annotation.Target;
  * <p>This annotation serves as a specialization of {@link Component @Component},
  * allowing for implementation classes to be autodetected through classpath scanning.
  *
+ * 服务类
+ * 它的来源是在Domain-Driven Design设计中，它代表了对一种模型的操作
+ *
  * @author Juergen Hoeller
  * @since 2.5
  * @see Component
@@ -45,11 +48,14 @@ import java.lang.annotation.Target;
 @Component
 public @interface Service {
 
-	/**
-	 * The value may indicate a suggestion for a logical component name,
-	 * to be turned into a Spring bean in case of an autodetected component.
-	 * @return the suggested component name, if any
-	 */
-	String value() default "";
+    /**
+     * The value may indicate a suggestion for a logical component name,
+     * to be turned into a Spring bean in case of an autodetected component.
+     *
+     * 组件名
+     *
+     * @return the suggested component name, if any
+     */
+    String value() default "";
 
 }

@@ -32,6 +32,9 @@ import java.lang.annotation.Target;
  * e.g. the {@link Repository @Repository} annotation or AspectJ's
  * {@link org.aspectj.lang.annotation.Aspect @Aspect} annotation.
  *
+ *
+ * 组件
+ *
  * @author Mark Fisher
  * @since 2.5
  * @see Repository
@@ -44,11 +47,14 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Component {
 
-	/**
-	 * The value may indicate a suggestion for a logical component name,
-	 * to be turned into a Spring bean in case of an autodetected component.
-	 * @return the suggested component name, if any
-	 */
-	String value() default "";
+    /**
+     * The value may indicate a suggestion for a logical component name,
+     * to be turned into a Spring bean in case of an autodetected component.
+     *
+     * 组件名
+     * 
+     * @return the suggested component name, if any
+     */
+    String value() default "";
 
 }

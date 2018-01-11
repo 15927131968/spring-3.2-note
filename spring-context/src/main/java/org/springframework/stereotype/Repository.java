@@ -45,6 +45,10 @@ import java.lang.annotation.Target;
  * {@link Component @Component}, allowing for implementation classes to be autodetected
  * through classpath scanning.
  *
+ * 仓库类
+ * 在DDD中，它被描述为一个封装的存储层，它可以检索、查找一系列对象
+ * 在J2EE中，它通常代表是"Data Access Object"，即数据访问对象
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 2.0
@@ -59,11 +63,14 @@ import java.lang.annotation.Target;
 @Component
 public @interface Repository {
 
-	/**
-	 * The value may indicate a suggestion for a logical component name,
-	 * to be turned into a Spring bean in case of an autodetected component.
-	 * @return the suggested component name, if any
-	 */
-	String value() default "";
+    /**
+     * The value may indicate a suggestion for a logical component name,
+     * to be turned into a Spring bean in case of an autodetected component.
+     *
+     * 组件名
+     *
+     * @return the suggested component name, if any
+     */
+    String value() default "";
 
 }
