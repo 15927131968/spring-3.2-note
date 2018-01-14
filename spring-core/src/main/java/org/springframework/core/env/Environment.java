@@ -93,6 +93,7 @@ public interface Environment extends PropertyResolver {
      * <p>If no profiles have explicitly been specified as active, then any
      * {@linkplain #getDefaultProfiles() default profiles} will automatically be activated.
      *
+     * 获取所有的profile
      * 
      * @see #getDefaultProfiles
      * @see ConfigurableEnvironment#setActiveProfiles
@@ -104,6 +105,7 @@ public interface Environment extends PropertyResolver {
      * Return the set of profiles to be active by default when no active profiles have
      * been set explicitly.
      *
+     * 获取默认的profile
      *
      * @see #getActiveProfiles
      * @see ConfigurableEnvironment#setDefaultProfiles
@@ -119,9 +121,9 @@ public interface Environment extends PropertyResolver {
      * For example, <pre class="code">env.acceptsProfiles("p1", "!p2")</pre> will
      * return {@code true} if profile 'p1' is active or 'p2' is not active.
      *
-     *
-     *
-     *
+     * 判断是否支持某些profile
+     * 如果一个profile用感叹号(!)开头，那么默认是取反，表示给定的profile没有被激活
+     * 比如env.acceptsProfile("p1", "!p2")表示p1被激活，p2没有被激活
      *
      * @throws IllegalArgumentException if called with zero arguments
      * or if any profile is {@code null}, empty or whitespace-only
