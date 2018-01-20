@@ -25,26 +25,38 @@ import org.springframework.util.StringUtils;
  * Editor for {@code java.util.UUID}, translating UUID
  * String representations into UUID objects and back.
  *
+ * UUID编辑器
+ *
  * @author Juergen Hoeller
  * @since 3.0.1
  * @see java.util.UUID
  */
 public class UUIDEditor extends PropertyEditorSupport {
 
-	@Override
-	public void setAsText(String text) throws IllegalArgumentException {
-		if (StringUtils.hasText(text)) {
-			setValue(UUID.fromString(text));
-		}
-		else {
-			setValue(null);
-		}
-	}
+    /**
+     * 设置
+     *
+     * @param text
+     * @throws IllegalArgumentException
+     */
+    @Override
+    public void setAsText(String text) throws IllegalArgumentException {
+        if (StringUtils.hasText(text)) {
+            setValue(UUID.fromString(text));
+        } else {
+            setValue(null);
+        }
+    }
 
-	@Override
-	public String getAsText() {
-		UUID value = (UUID) getValue();
-		return (value != null ? value.toString() : "");
-	}
+    /**
+     * 获取
+     *
+     * @return
+     */
+    @Override
+    public String getAsText() {
+        UUID value = (UUID) getValue();
+        return (value != null ? value.toString() : "");
+    }
 
 }

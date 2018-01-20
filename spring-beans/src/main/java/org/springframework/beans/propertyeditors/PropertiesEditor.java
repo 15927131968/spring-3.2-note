@@ -32,47 +32,53 @@ import java.util.Properties;
  * <p>The required format is defined in the standard {@code Properties}
  * documentation. Each property must be on a new line.
  *
+ * 属性编辑器
+ * 它也会处理xml中的map元素
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see java.util.Properties#load
  */
 public class PropertiesEditor extends PropertyEditorSupport {
 
-	/**
-	 * Convert {@link String} into {@link Properties}, considering it as
-	 * properties content.
-	 * @param text the text to be so converted
-	 */
-	@Override
-	public void setAsText(String text) throws IllegalArgumentException {
-		Properties props = new Properties();
-		if (text != null) {
-			try {
-				// Must use the ISO-8859-1 encoding because Properties.load(stream) expects it.
-				props.load(new ByteArrayInputStream(text.getBytes("ISO-8859-1")));
-			}
-			catch (IOException ex) {
-				// Should never happen.
-				throw new IllegalArgumentException(
-						"Failed to parse [" + text + "] into Properties", ex);
-			}
-		}
-		setValue(props);
-	}
+    /**
+     * Convert {@link String} into {@link Properties}, considering it as
+     * properties content.
+     *
+     * 设置
+     *
+     * @param text the text to be so converted
+     */
+    @Override
+    public void setAsText(String text) throws IllegalArgumentException {
+        Properties props = new Properties();
+        if (text != null) {
+            try {
+                // Must use the ISO-8859-1 encoding because Properties.load(stream) expects it.
+                props.load(new ByteArrayInputStream(text.getBytes("ISO-8859-1")));
+            } catch (IOException ex) {
+                // Should never happen.
+                throw new IllegalArgumentException(
+                        "Failed to parse [" + text + "] into Properties", ex);
+            }
+        }
+        setValue(props);
+    }
 
-	/**
-	 * Take {@link Properties} as-is; convert {@link Map} into {@code Properties}.
-	 */
-	@Override
-	public void setValue(Object value) {
-		if (!(value instanceof Properties) && value instanceof Map) {
-			Properties props = new Properties();
-			props.putAll((Map) value);
-			super.setValue(props);
-		}
-		else {
-			super.setValue(value);
-		}
-	}
+    /**
+     * Take {@link Properties} as-is; convert {@link Map} into {@code Properties}.
+     *
+     * 获取
+     */
+    @Override
+    public void setValue(Object value) {
+        if (!(value instanceof Properties) && value instanceof Map) {
+            Properties props = new Properties();
+            props.putAll((Map) value);
+            super.setValue(props);
+        } else {
+            super.setValue(value);
+        }
+    }
 
 }

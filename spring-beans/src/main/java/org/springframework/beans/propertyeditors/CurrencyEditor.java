@@ -23,21 +23,34 @@ import java.util.Currency;
  * Editor for {@code java.util.Currency}, translating currency codes into Currency
  * objects. Exposes the currency code as text representation of a Currency object.
  *
+ * 并发编辑器
+ *
  * @author Juergen Hoeller
  * @since 3.0
  * @see java.util.Currency
  */
 public class CurrencyEditor extends PropertyEditorSupport {
 
-	@Override
-	public void setAsText(String text) throws IllegalArgumentException {
-		setValue(Currency.getInstance(text));
-	}
+    /**
+     * 用文本的方式设置
+     *
+     * @param text
+     * @throws IllegalArgumentException
+     */
+    @Override
+    public void setAsText(String text) throws IllegalArgumentException {
+        setValue(Currency.getInstance(text));
+    }
 
-	@Override
-	public String getAsText() {
-		Currency value = (Currency) getValue();
-		return (value != null ? value.getCurrencyCode() : "");
-	}
+    /**
+     * 用文本的方式获取
+     *
+     * @return
+     */
+    @Override
+    public String getAsText() {
+        Currency value = (Currency) getValue();
+        return (value != null ? value.getCurrencyCode() : "");
+    }
 
 }

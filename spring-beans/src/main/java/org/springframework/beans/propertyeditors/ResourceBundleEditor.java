@@ -67,40 +67,49 @@ import org.springframework.util.StringUtils;
  *
  * <p>Thanks to David Leal Valmana for the suggestion and initial prototype.
  *
+ * 资源包编辑器
+ *
  * @author Rick Evans
  * @since 2.0
  */
 public class ResourceBundleEditor extends PropertyEditorSupport {
 
-	/**
-	 * The separator used to distinguish between the base name and the
-	 * locale (if any) when {@link #setAsText(String) converting from a String}.
-	 */
-	public static final String BASE_NAME_SEPARATOR = "_";
+    /**
+     * The separator used to distinguish between the base name and the
+     * locale (if any) when {@link #setAsText(String) converting from a String}.
+     *
+     * 分隔符为下划线
+     */
+    public static final String BASE_NAME_SEPARATOR = "_";
 
 
-	@Override
-	public void setAsText(String text) throws IllegalArgumentException {
-		Assert.hasText(text, "'text' must not be empty");
-		ResourceBundle bundle;
-		String rawBaseName = text.trim();
-		int indexOfBaseNameSeparator = rawBaseName.indexOf(BASE_NAME_SEPARATOR);
-		if (indexOfBaseNameSeparator == -1) {
-			bundle = ResourceBundle.getBundle(rawBaseName);
-		}
-		else {
-			// it potentially has locale information
-			String baseName = rawBaseName.substring(0, indexOfBaseNameSeparator);
-			if (!StringUtils.hasText(baseName)) {
-				throw new IllegalArgumentException("Bad ResourceBundle name : received '" + text + "' as argument to 'setAsText(String value)'.");
-			}
-			String localeString = rawBaseName.substring(indexOfBaseNameSeparator + 1);
-			Locale locale = StringUtils.parseLocaleString(localeString);
-			bundle = (StringUtils.hasText(localeString))
-					? ResourceBundle.getBundle(baseName, locale)
-					: ResourceBundle.getBundle(baseName);
-		}
-		setValue(bundle);
-	}
+    /**
+     * 解析
+     *
+     * @param text
+     * @throws IllegalArgumentException
+     */
+    @Override
+    public void setAsText(String text) throws IllegalArgumentException {
+        Assert.hasText(text, "'text' must not be empty");
+        ResourceBundle bundle;
+        String rawBaseName = text.trim();
+        int indexOfBaseNameSeparator = rawBaseName.indexOf(BASE_NAME_SEPARATOR);
+        if (indexOfBaseNameSeparator == -1) {
+            bundle = ResourceBundle.getBundle(rawBaseName);
+        } else {
+            // it potentially has locale information
+            String baseName = rawBaseName.substring(0, indexOfBaseNameSeparator);
+            if (!StringUtils.hasText(baseName)) {
+                throw new IllegalArgumentException("Bad ResourceBundle name : received '" + text + "' as argument to 'setAsText(String value)'.");
+            }
+            String localeString = rawBaseName.substring(indexOfBaseNameSeparator + 1);
+            Locale locale = StringUtils.parseLocaleString(localeString);
+            bundle = (StringUtils.hasText(localeString))
+                    ? ResourceBundle.getBundle(baseName, locale)
+                    : ResourceBundle.getBundle(baseName);
+        }
+        setValue(bundle);
+    }
 
 }

@@ -27,6 +27,8 @@ import org.springframework.util.StringUtils;
  * optionally country + optionally variant, separated by "_" (e.g. "en", "en_US").
  * Also accepts spaces as separators, as alternative to underscores.
  *
+ * 本地化编辑器
+ *
  * @author Juergen Hoeller
  * @since 26.05.2003
  * @see java.util.Locale
@@ -34,15 +36,25 @@ import org.springframework.util.StringUtils;
  */
 public class LocaleEditor extends PropertyEditorSupport {
 
-	@Override
-	public void setAsText(String text) {
-		setValue(StringUtils.parseLocaleString(text));
-	}
+    /**
+     * 设置
+     *
+     * @param text
+     */
+    @Override
+    public void setAsText(String text) {
+        setValue(StringUtils.parseLocaleString(text));
+    }
 
-	@Override
-	public String getAsText() {
-		Object value = getValue();
-		return (value != null ? value.toString() : "");
-	}
+    /**
+     * 获取
+     *
+     * @return
+     */
+    @Override
+    public String getAsText() {
+        Object value = getValue();
+        return (value != null ? value.toString() : "");
+    }
 
 }

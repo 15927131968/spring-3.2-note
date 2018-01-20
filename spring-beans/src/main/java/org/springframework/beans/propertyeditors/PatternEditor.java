@@ -23,6 +23,8 @@ import java.util.regex.Pattern;
  * Editor for {@code java.util.regex.Pattern}, to directly populate a Pattern property.
  * Expects the same syntax as Pattern's {@code compile} method.
  *
+ * 模式编辑器
+ *
  * @author Juergen Hoeller
  * @since 2.0.1
  * @see java.util.regex.Pattern
@@ -30,40 +32,58 @@ import java.util.regex.Pattern;
  */
 public class PatternEditor extends PropertyEditorSupport {
 
-	private final int flags;
+    /**
+     * 标记
+     */
+    private final int flags;
 
 
-	/**
-	 * Create a new PatternEditor with default settings.
-	 */
-	public PatternEditor() {
-		this.flags = 0;
-	}
+    /**
+     * Create a new PatternEditor with default settings.
+     *
+     * 构造方法
+     */
+    public PatternEditor() {
+        this.flags = 0;
+    }
 
-	/**
-	 * Create a new PatternEditor with the given settings.
-	 * @param flags the {@code java.util.regex.Pattern} flags to apply
-	 * @see java.util.regex.Pattern#compile(String, int)
-	 * @see java.util.regex.Pattern#CASE_INSENSITIVE
-	 * @see java.util.regex.Pattern#MULTILINE
-	 * @see java.util.regex.Pattern#DOTALL
-	 * @see java.util.regex.Pattern#UNICODE_CASE
-	 * @see java.util.regex.Pattern#CANON_EQ
-	 */
-	public PatternEditor(int flags) {
-		this.flags = flags;
-	}
+    /**
+     * Create a new PatternEditor with the given settings.
+     *
+     * 构造方法
+     *
+     * @param flags the {@code java.util.regex.Pattern} flags to apply
+     * @see java.util.regex.Pattern#compile(String, int)
+     * @see java.util.regex.Pattern#CASE_INSENSITIVE
+     * @see java.util.regex.Pattern#MULTILINE
+     * @see java.util.regex.Pattern#DOTALL
+     * @see java.util.regex.Pattern#UNICODE_CASE
+     * @see java.util.regex.Pattern#CANON_EQ
+     */
+    public PatternEditor(int flags) {
+        this.flags = flags;
+    }
 
 
-	@Override
-	public void setAsText(String text) {
-		setValue(text != null ? Pattern.compile(text, this.flags) : null);
-	}
+    /**
+     * 设置
+     *
+     * @param text
+     */
+    @Override
+    public void setAsText(String text) {
+        setValue(text != null ? Pattern.compile(text, this.flags) : null);
+    }
 
-	@Override
-	public String getAsText() {
-		Pattern value = (Pattern) getValue();
-		return (value != null ? value.pattern() : "");
-	}
+    /**
+     * 获取
+     *
+     * @return
+     */
+    @Override
+    public String getAsText() {
+        Pattern value = (Pattern) getValue();
+        return (value != null ? value.pattern() : "");
+    }
 
 }

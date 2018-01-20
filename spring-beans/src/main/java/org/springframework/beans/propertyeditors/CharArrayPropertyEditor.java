@@ -22,21 +22,33 @@ import java.beans.PropertyEditorSupport;
  * Editor for char arrays. Strings will simply be converted to
  * their corresponding char representations.
  *
+ * 字符数组
+ *
  * @author Juergen Hoeller
  * @since 1.2.8
  * @see String#toCharArray()
  */
 public class CharArrayPropertyEditor extends PropertyEditorSupport {
 
-	@Override
-	public void setAsText(String text) {
-		setValue(text != null ? text.toCharArray() : null);
-	}
+    /**
+     * 设置为文本
+     *
+     * @param text
+     */
+    @Override
+    public void setAsText(String text) {
+        setValue(text != null ? text.toCharArray() : null);
+    }
 
-	@Override
-	public String getAsText() {
-		char[] value = (char[]) getValue();
-		return (value != null ? new String(value) : "");
-	}
+    /**
+     * 获取为文本
+     *
+     * @return
+     */
+    @Override
+    public String getAsText() {
+        char[] value = (char[]) getValue();
+        return (value != null ? new String(value) : "");
+    }
 
 }

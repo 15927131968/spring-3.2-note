@@ -28,26 +28,27 @@ import org.springframework.util.StringUtils;
  * <p>Expects the same syntax as Charset's {@link java.nio.charset.Charset#name()},
  * e.g. {@code UTF-8}, {@code ISO-8859-16}, etc.
  *
+ * 字符集编辑器
+ * 
  * @author Arjen Poutsma
  * @since 2.5.4
  * @see Charset
  */
 public class CharsetEditor extends PropertyEditorSupport {
 
-	@Override
-	public void setAsText(String text) throws IllegalArgumentException {
-		if (StringUtils.hasText(text)) {
-			setValue(Charset.forName(text));
-		}
-		else {
-			setValue(null);
-		}
-	}
+    @Override
+    public void setAsText(String text) throws IllegalArgumentException {
+        if (StringUtils.hasText(text)) {
+            setValue(Charset.forName(text));
+        } else {
+            setValue(null);
+        }
+    }
 
-	@Override
-	public String getAsText() {
-		Charset value = (Charset) getValue();
-		return (value != null ? value.name() : "");
-	}
+    @Override
+    public String getAsText() {
+        Charset value = (Charset) getValue();
+        return (value != null ? value.name() : "");
+    }
 
 }

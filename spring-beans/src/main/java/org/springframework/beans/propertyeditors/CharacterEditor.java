@@ -32,6 +32,8 @@ import org.springframework.util.StringUtils;
  * <p>Also supports conversion from a Unicode character sequence; e.g.
  * {@code u0041} ('A').
  *
+ * 字符编辑器
+ *
  * @author Juergen Hoeller
  * @author Rob Harrop
  * @author Rick Evans
@@ -41,69 +43,97 @@ import org.springframework.util.StringUtils;
  */
 public class CharacterEditor extends PropertyEditorSupport {
 
-	/**
-	 * The prefix that identifies a string as being a Unicode character sequence.
-	 */
-	private static final String UNICODE_PREFIX = "\\u";
+    /**
+     * The prefix that identifies a string as being a Unicode character sequence.
+     *
+     * Unicode前缀
+     */
+    private static final String UNICODE_PREFIX = "\\u";
 
-	/**
-	 * The length of a Unicode character sequence.
-	 */
-	private static final int UNICODE_LENGTH = 6;
-
-
-	private final boolean allowEmpty;
-
-
-	/**
-	 * Create a new CharacterEditor instance.
-	 * <p>The "allowEmpty" parameter controls whether an empty String is
-	 * to be allowed in parsing, i.e. be interpreted as the {@code null}
-	 * value when {@link #setAsText(String) text is being converted}. If
-	 * {@code false}, an {@link IllegalArgumentException} will be thrown
-	 * at that time.
-	 * @param allowEmpty if empty strings are to be allowed
-	 */
-	public CharacterEditor(boolean allowEmpty) {
-		this.allowEmpty = allowEmpty;
-	}
+    /**
+     * The length of a Unicode character sequence.
+     *
+     * Unicode字符序列的长度
+     */
+    private static final int UNICODE_LENGTH = 6;
 
 
-	@Override
-	public void setAsText(String text) throws IllegalArgumentException {
-		if (this.allowEmpty && !StringUtils.hasLength(text)) {
-			// Treat empty String as null value.
-			setValue(null);
-		}
-		else if (text == null) {
-			throw new IllegalArgumentException("null String cannot be converted to char type");
-		}
-		else if (isUnicodeCharacterSequence(text)) {
-			setAsUnicode(text);
-		}
-		else if (text.length() != 1) {
-			throw new IllegalArgumentException("String [" + text + "] with length " +
-					text.length() + " cannot be converted to char type");
-		}
-		else {
-			setValue(new Character(text.charAt(0)));
-		}
-	}
-
-	@Override
-	public String getAsText() {
-		Object value = getValue();
-		return (value != null ? value.toString() : "");
-	}
+    /**
+     * 是否允许为空
+     */
+    private final boolean allowEmpty;
 
 
-	private boolean isUnicodeCharacterSequence(String sequence) {
-		return (sequence.startsWith(UNICODE_PREFIX) && sequence.length() == UNICODE_LENGTH);
-	}
+    /**
+     * Create a new CharacterEditor instance.
+     * <p>The "allowEmpty" parameter controls whether an empty String is
+     * to be allowed in parsing, i.e. be interpreted as the {@code null}
+     * value when {@link #setAsText(String) text is being converted}. If
+     * {@code false}, an {@link IllegalArgumentException} will be thrown
+     * at that time.
+     *
+     * 构造方法
+     *
+     * @param allowEmpty if empty strings are to be allowed
+     */
+    public CharacterEditor(boolean allowEmpty) {
+        this.allowEmpty = allowEmpty;
+    }
 
-	private void setAsUnicode(String text) {
-		int code = Integer.parseInt(text.substring(UNICODE_PREFIX.length()), 16);
-		setValue(new Character((char) code));
-	}
+
+    /**
+     * 保存为文本
+     *
+     * @param text
+     * @throws IllegalArgumentException
+     */
+    @Override
+    public void setAsText(String text) throws IllegalArgumentException {
+        if (this.allowEmpty && !StringUtils.hasLength(text)) {
+            // Treat empty String as null value.
+            setValue(null);
+        } else if (text == null) {
+            throw new IllegalArgumentException("null String cannot be converted to char type");
+        } else if (isUnicodeCharacterSequence(text)) {
+            setAsUnicode(text);
+        } else if (text.length() != 1) {
+            throw new IllegalArgumentException("String [" + text + "] with length " +
+                    text.length() + " cannot be converted to char type");
+        } else {
+            setValue(new Character(text.charAt(0)));
+        }
+    }
+
+    /**
+     * 设置文本形式
+     *
+     * @return
+     */
+    @Override
+    public String getAsText() {
+        Object value = getValue();
+        return (value != null ? value.toString() : "");
+    }
+
+
+    /**
+     * 是否为Unicode格式的文本
+     *
+     * @param sequence
+     * @return
+     */
+    private boolean isUnicodeCharacterSequence(String sequence) {
+        return (sequence.startsWith(UNICODE_PREFIX) && sequence.length() == UNICODE_LENGTH);
+    }
+
+    /**
+     * 设置为Unicode
+     *
+     * @param text
+     */
+    private void setAsUnicode(String text) {
+        int code = Integer.parseInt(text.substring(UNICODE_PREFIX.length()), 16);
+        setValue(new Character((char) code));
+    }
 
 }

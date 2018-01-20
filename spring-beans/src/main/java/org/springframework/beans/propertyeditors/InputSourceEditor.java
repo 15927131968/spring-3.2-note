@@ -32,6 +32,8 @@ import org.springframework.util.Assert;
  * <p>Supports Spring-style URL notation: any fully qualified standard URL
  * ("file:", "http:", etc) and Spring's special "classpath:" pseudo-URL.
  *
+ * 输入资源编辑器
+ *
  * @author Juergen Hoeller
  * @since 3.0.3
  * @see org.xml.sax.InputSource
@@ -42,45 +44,63 @@ import org.springframework.util.Assert;
  */
 public class InputSourceEditor extends PropertyEditorSupport {
 
-	private final ResourceEditor resourceEditor;
+    /**
+     * 资源编辑器
+     */
+    private final ResourceEditor resourceEditor;
 
 
-	/**
-	 * Create a new InputSourceEditor,
-	 * using the default ResourceEditor underneath.
-	 */
-	public InputSourceEditor() {
-		this.resourceEditor = new ResourceEditor();
-	}
+    /**
+     * Create a new InputSourceEditor,
+     * using the default ResourceEditor underneath.
+     *
+     * 构造方法
+     */
+    public InputSourceEditor() {
+        this.resourceEditor = new ResourceEditor();
+    }
 
-	/**
-	 * Create a new InputSourceEditor,
-	 * using the given ResourceEditor underneath.
-	 * @param resourceEditor the ResourceEditor to use
-	 */
-	public InputSourceEditor(ResourceEditor resourceEditor) {
-		Assert.notNull(resourceEditor, "ResourceEditor must not be null");
-		this.resourceEditor = resourceEditor;
-	}
+    /**
+     * Create a new InputSourceEditor,
+     * using the given ResourceEditor underneath.
+     *
+     * 构造方法
+     *
+     * @param resourceEditor the ResourceEditor to use
+     */
+    public InputSourceEditor(ResourceEditor resourceEditor) {
+        Assert.notNull(resourceEditor, "ResourceEditor must not be null");
+        this.resourceEditor = resourceEditor;
+    }
 
 
-	@Override
-	public void setAsText(String text) throws IllegalArgumentException {
-		this.resourceEditor.setAsText(text);
-		Resource resource = (Resource) this.resourceEditor.getValue();
-		try {
-			setValue(resource != null ? new InputSource(resource.getURL().toString()) : null);
-		}
-		catch (IOException ex) {
-			throw new IllegalArgumentException(
-					"Could not retrieve URL for " + resource + ": " + ex.getMessage());
-		}
-	}
+    /**
+     * 设置
+     *
+     * @param text
+     * @throws IllegalArgumentException
+     */
+    @Override
+    public void setAsText(String text) throws IllegalArgumentException {
+        this.resourceEditor.setAsText(text);
+        Resource resource = (Resource) this.resourceEditor.getValue();
+        try {
+            setValue(resource != null ? new InputSource(resource.getURL().toString()) : null);
+        } catch (IOException ex) {
+            throw new IllegalArgumentException(
+                    "Could not retrieve URL for " + resource + ": " + ex.getMessage());
+        }
+    }
 
-	@Override
-	public String getAsText() {
-		InputSource value = (InputSource) getValue();
-		return (value != null ? value.getSystemId() : "");
-	}
+    /**
+     * 获取
+     *
+     * @return
+     */
+    @Override
+    public String getAsText() {
+        InputSource value = (InputSource) getValue();
+        return (value != null ? value.getSystemId() : "");
+    }
 
 }

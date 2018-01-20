@@ -29,6 +29,8 @@ import org.springframework.util.StringUtils;
  * <p>Also supports "java.lang.String[]"-style array class names, in contrast to the
  * standard {@link Class#forName(String)} method.
  *
+ * 类编辑器
+ *
  * @author Juergen Hoeller
  * @author Rick Evans
  * @since 13.05.2003
@@ -37,45 +39,63 @@ import org.springframework.util.StringUtils;
  */
 public class ClassEditor extends PropertyEditorSupport {
 
-	private final ClassLoader classLoader;
+    /**
+     * 类加载器
+     */
+    private final ClassLoader classLoader;
 
 
-	/**
-	 * Create a default ClassEditor, using the thread context ClassLoader.
-	 */
-	public ClassEditor() {
-		this(null);
-	}
+    /**
+     * Create a default ClassEditor, using the thread context ClassLoader.
+     *
+     * 创建一个默认的类编辑器，使用当前线程的类加载器
+     *
+     */
+    public ClassEditor() {
+        this(null);
+    }
 
-	/**
-	 * Create a default ClassEditor, using the given ClassLoader.
-	 * @param classLoader the ClassLoader to use
-	 * (or {@code null} for the thread context ClassLoader)
-	 */
-	public ClassEditor(ClassLoader classLoader) {
-		this.classLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
-	}
+    /**
+     * Create a default ClassEditor, using the given ClassLoader.
+     *
+     * 通过给定的类加载器来创建一个默认的类编辑器
+     *
+     * @param classLoader the ClassLoader to use
+     * (or {@code null} for the thread context ClassLoader)
+     */
+    public ClassEditor(ClassLoader classLoader) {
+        this.classLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
+    }
 
 
-	@Override
-	public void setAsText(String text) throws IllegalArgumentException {
-		if (StringUtils.hasText(text)) {
-			setValue(ClassUtils.resolveClassName(text.trim(), this.classLoader));
-		}
-		else {
-			setValue(null);
-		}
-	}
+    /**
+     * 用文本的方式设置
+     *
+     * @param text
+     * @throws IllegalArgumentException
+     */
+    @Override
+    public void setAsText(String text) throws IllegalArgumentException {
+        if (StringUtils.hasText(text)) {
+            setValue(ClassUtils.resolveClassName(text.trim(), this.classLoader));
+        } else {
+            setValue(null);
+        }
+    }
 
-	@Override
-	public String getAsText() {
-		Class clazz = (Class) getValue();
-		if (clazz != null) {
-			return ClassUtils.getQualifiedName(clazz);
-		}
-		else {
-			return "";
-		}
-	}
+    /**
+     * 用文本的方式获取
+     *
+     * @return
+     */
+    @Override
+    public String getAsText() {
+        Class clazz = (Class) getValue();
+        if (clazz != null) {
+            return ClassUtils.getQualifiedName(clazz);
+        } else {
+            return "";
+        }
+    }
 
 }

@@ -23,24 +23,34 @@ import java.util.TimeZone;
  * Editor for {@code java.util.TimeZone}, translating timezone IDs into
  * TimeZone objects. Does not expose a text representation for TimeZone objects.
  *
+ * 时区编辑器
+ *
  * @author Juergen Hoeller
  * @since 3.0
  * @see java.util.TimeZone
  */
 public class TimeZoneEditor extends PropertyEditorSupport {
 
-	@Override
-	public void setAsText(String text) throws IllegalArgumentException {
-		setValue(TimeZone.getTimeZone(text));
-	}
+    /**
+     * 设置
+     *
+     * @param text
+     * @throws IllegalArgumentException
+     */
+    @Override
+    public void setAsText(String text) throws IllegalArgumentException {
+        setValue(TimeZone.getTimeZone(text));
+    }
 
-	/**
-	 * This implementation returns {@code null} to indicate that
-	 * there is no appropriate text representation.
-	 */
-	@Override
-	public String getAsText() {
-		return null;
-	}
+    /**
+     * This implementation returns {@code null} to indicate that
+     * there is no appropriate text representation.
+     *
+     * 获取
+     */
+    @Override
+    public String getAsText() {
+        return null;
+    }
 
 }

@@ -42,6 +42,8 @@ import org.springframework.util.StringUtils;
  * a valid protocol to be specified. Any scheme within a valid URI syntax
  * is allowed, even without a matching protocol handler being registered.
  *
+ * URI编辑器
+ *
  * @author Juergen Hoeller
  * @since 2.0.2
  * @see java.net.URI
@@ -49,116 +51,141 @@ import org.springframework.util.StringUtils;
  */
 public class URIEditor extends PropertyEditorSupport {
 
-	private final ClassLoader classLoader;
+    /**
+     * 类加载器
+     */
+    private final ClassLoader classLoader;
 
-	private final boolean encode;
-
-
-
-	/**
-	 * Create a new, encoding URIEditor, converting "classpath:" locations into
-	 * standard URIs (not trying to resolve them into physical resources).
-	 */
-	public URIEditor() {
-		this.classLoader = null;
-		this.encode = true;
-	}
-
-	/**
-	 * Create a new URIEditor, converting "classpath:" locations into
-	 * standard URIs (not trying to resolve them into physical resources).
-	 * @param encode indicates whether Strings will be encoded or not
-	 */
-	public URIEditor(boolean encode) {
-		this.classLoader = null;
-		this.encode = encode;
-	}
+    /**
+     * 是否转码
+     */
+    private final boolean encode;
 
 
-	/**
-	 * Create a new URIEditor, using the given ClassLoader to resolve
-	 * "classpath:" locations into physical resource URLs.
-	 * @param classLoader the ClassLoader to use for resolving "classpath:" locations
-	 * (may be {@code null} to indicate the default ClassLoader)
-	 */
-	public URIEditor(ClassLoader classLoader) {
-		this.classLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
-		this.encode = true;
-	}
 
-	/**
-	 * Create a new URIEditor, using the given ClassLoader to resolve
-	 * "classpath:" locations into physical resource URLs.
-	 * @param classLoader the ClassLoader to use for resolving "classpath:" locations
-	 * (may be {@code null} to indicate the default ClassLoader)
-	 * @param encode indicates whether Strings will be encoded or not
-	 */
-	public URIEditor(ClassLoader classLoader, boolean encode) {
-		this.classLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
-		this.encode = encode;
-	}
+    /**
+     * Create a new, encoding URIEditor, converting "classpath:" locations into
+     * standard URIs (not trying to resolve them into physical resources).
+     *
+     * 构造方法
+     */
+    public URIEditor() {
+        this.classLoader = null;
+        this.encode = true;
+    }
 
-
-	@Override
-	public void setAsText(String text) throws IllegalArgumentException {
-		if (StringUtils.hasText(text)) {
-			String uri = text.trim();
-			if (this.classLoader != null && uri.startsWith(ResourceUtils.CLASSPATH_URL_PREFIX)) {
-				ClassPathResource resource =
-						new ClassPathResource(uri.substring(ResourceUtils.CLASSPATH_URL_PREFIX.length()), this.classLoader);
-				try {
-					String url = resource.getURL().toString();
-					setValue(createURI(url));
-				}
-				catch (IOException ex) {
-					throw new IllegalArgumentException("Could not retrieve URI for " + resource + ": " + ex.getMessage());
-				}
-				catch (URISyntaxException ex) {
-					throw new IllegalArgumentException("Invalid URI syntax: " + ex);
-				}
-			}
-			else {
-				try {
-					setValue(createURI(uri));
-				}
-				catch (URISyntaxException ex) {
-					throw new IllegalArgumentException("Invalid URI syntax: " + ex);
-				}
-			}
-		}
-		else {
-			setValue(null);
-		}
-	}
-
-	/**
-	 * Create a URI instance for the given (resolved) String value.
-	 * <p>The default implementation encodes the value into a RFC
-	 * 2396 compliant URI.
-	 * @param value the value to convert into a URI instance
-	 * @return the URI instance
-	 * @throws java.net.URISyntaxException if URI conversion failed
-	 */
-	protected URI createURI(String value) throws URISyntaxException {
-		int colonIndex = value.indexOf(':');
-		if (this.encode && colonIndex != -1) {
-			int fragmentIndex = value.indexOf('#', colonIndex + 1);
-			String scheme = value.substring(0, colonIndex);
-			String ssp = value.substring(colonIndex + 1, (fragmentIndex > 0 ? fragmentIndex : value.length()));
-			String fragment = (fragmentIndex > 0 ? value.substring(fragmentIndex + 1) : null);
-			return new URI(scheme, ssp, fragment);
-		}
-		else {
-			// not encoding or the value contains no scheme - fallback to default
-			return new URI(value);
-		}
-	}
+    /**
+     * Create a new URIEditor, converting "classpath:" locations into
+     * standard URIs (not trying to resolve them into physical resources).
+     *
+     * 构造方法
+     *
+     * @param encode indicates whether Strings will be encoded or not
+     */
+    public URIEditor(boolean encode) {
+        this.classLoader = null;
+        this.encode = encode;
+    }
 
 
-	@Override
-	public String getAsText() {
-		URI value = (URI) getValue();
-		return (value != null ? value.toString() : "");
-	}
+    /**
+     * Create a new URIEditor, using the given ClassLoader to resolve
+     * "classpath:" locations into physical resource URLs.
+     *
+     * 构造方法
+     *
+     * @param classLoader the ClassLoader to use for resolving "classpath:" locations
+     * (may be {@code null} to indicate the default ClassLoader)
+     */
+    public URIEditor(ClassLoader classLoader) {
+        this.classLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
+        this.encode = true;
+    }
+
+    /**
+     * Create a new URIEditor, using the given ClassLoader to resolve
+     * "classpath:" locations into physical resource URLs.
+     *
+     * 构造方法
+     *
+     * @param classLoader the ClassLoader to use for resolving "classpath:" locations
+     * (may be {@code null} to indicate the default ClassLoader)
+     * @param encode indicates whether Strings will be encoded or not
+     */
+    public URIEditor(ClassLoader classLoader, boolean encode) {
+        this.classLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
+        this.encode = encode;
+    }
+
+
+    /**
+     * 设置
+     *
+     * @param text
+     * @throws IllegalArgumentException
+     */
+    @Override
+    public void setAsText(String text) throws IllegalArgumentException {
+        if (StringUtils.hasText(text)) {
+            String uri = text.trim();
+            if (this.classLoader != null && uri.startsWith(ResourceUtils.CLASSPATH_URL_PREFIX)) {
+                ClassPathResource resource =
+                        new ClassPathResource(uri.substring(ResourceUtils.CLASSPATH_URL_PREFIX.length()), this.classLoader);
+                try {
+                    String url = resource.getURL().toString();
+                    setValue(createURI(url));
+                } catch (IOException ex) {
+                    throw new IllegalArgumentException("Could not retrieve URI for " + resource + ": " + ex.getMessage());
+                } catch (URISyntaxException ex) {
+                    throw new IllegalArgumentException("Invalid URI syntax: " + ex);
+                }
+            } else {
+                try {
+                    setValue(createURI(uri));
+                } catch (URISyntaxException ex) {
+                    throw new IllegalArgumentException("Invalid URI syntax: " + ex);
+                }
+            }
+        } else {
+            setValue(null);
+        }
+    }
+
+    /**
+     * Create a URI instance for the given (resolved) String value.
+     * <p>The default implementation encodes the value into a RFC
+     * 2396 compliant URI.
+     *
+     * 创建URI
+     *
+     * @param value the value to convert into a URI instance
+     * @return the URI instance
+     * @throws java.net.URISyntaxException if URI conversion failed
+     */
+    protected URI createURI(String value) throws URISyntaxException {
+        int colonIndex = value.indexOf(':');
+        if (this.encode && colonIndex != -1) {
+            int fragmentIndex = value.indexOf('#', colonIndex + 1);
+            String scheme = value.substring(0, colonIndex);
+            String ssp = value.substring(colonIndex + 1, (fragmentIndex > 0 ? fragmentIndex : value.length()));
+            String fragment = (fragmentIndex > 0 ? value.substring(fragmentIndex + 1) : null);
+            return new URI(scheme, ssp, fragment);
+        } else {
+            // not encoding or the value contains no scheme - fallback to default
+            return new URI(value);
+        }
+    }
+
+
+    /**
+     * 获取
+     *
+     * @return
+     */
+    @Override
+    public String getAsText() {
+        URI value = (URI) getValue();
+        return (value != null ? value.toString() : "");
+    }
 
 }

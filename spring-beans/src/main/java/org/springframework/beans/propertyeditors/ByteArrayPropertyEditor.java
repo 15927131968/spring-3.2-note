@@ -22,21 +22,33 @@ import java.beans.PropertyEditorSupport;
  * Editor for byte arrays. Strings will simply be converted to
  * their corresponding byte representations.
  *
+ * 字节数组
+ *
  * @author Juergen Hoeller
  * @since 1.0.1
  * @see java.lang.String#getBytes
  */
 public class ByteArrayPropertyEditor extends PropertyEditorSupport {
 
-	@Override
-	public void setAsText(String text) {
-		setValue(text != null ? text.getBytes() : null);
-	}
+    /**
+     * 设置为文本
+     *
+     * @param text
+     */
+    @Override
+    public void setAsText(String text) {
+        setValue(text != null ? text.getBytes() : null);
+    }
 
-	@Override
-	public String getAsText() {
-		byte[] value = (byte[]) getValue();
-		return (value != null ? new String(value) : "");
-	}
+    /**
+     * 获取为文本
+     *
+     * @return
+     */
+    @Override
+    public String getAsText() {
+        byte[] value = (byte[]) getValue();
+        return (value != null ? new String(value) : "");
+    }
 
 }

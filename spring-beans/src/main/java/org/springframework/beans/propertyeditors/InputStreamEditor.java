@@ -33,6 +33,8 @@ import org.springframework.util.Assert;
  *
  * <p>Note that in the default usage, the stream is not closed by Spring itself!
  *
+ * 输入流编辑器
+ *
  * @author Juergen Hoeller
  * @since 1.0.1
  * @see java.io.InputStream
@@ -43,48 +45,63 @@ import org.springframework.util.Assert;
  */
 public class InputStreamEditor extends PropertyEditorSupport {
 
-	private final ResourceEditor resourceEditor;
+    /**
+     * 资源编辑器
+     */
+    private final ResourceEditor resourceEditor;
 
 
-	/**
-	 * Create a new InputStreamEditor,
-	 * using the default ResourceEditor underneath.
-	 */
-	public InputStreamEditor() {
-		this.resourceEditor = new ResourceEditor();
-	}
+    /**
+     * Create a new InputStreamEditor,
+     * using the default ResourceEditor underneath.
+     *
+     * 构造方法
+     */
+    public InputStreamEditor() {
+        this.resourceEditor = new ResourceEditor();
+    }
 
-	/**
-	 * Create a new InputStreamEditor,
-	 * using the given ResourceEditor underneath.
-	 * @param resourceEditor the ResourceEditor to use
-	 */
-	public InputStreamEditor(ResourceEditor resourceEditor) {
-		Assert.notNull(resourceEditor, "ResourceEditor must not be null");
-		this.resourceEditor = resourceEditor;
-	}
+    /**
+     * Create a new InputStreamEditor,
+     * using the given ResourceEditor underneath.
+     *
+     * 构造方法
+     *
+     * @param resourceEditor the ResourceEditor to use
+     */
+    public InputStreamEditor(ResourceEditor resourceEditor) {
+        Assert.notNull(resourceEditor, "ResourceEditor must not be null");
+        this.resourceEditor = resourceEditor;
+    }
 
 
-	@Override
-	public void setAsText(String text) throws IllegalArgumentException {
-		this.resourceEditor.setAsText(text);
-		Resource resource = (Resource) this.resourceEditor.getValue();
-		try {
-			setValue(resource != null ? resource.getInputStream() : null);
-		}
-		catch (IOException ex) {
-			throw new IllegalArgumentException(
-					"Could not retrieve InputStream for " + resource + ": " + ex.getMessage());
-		}
-	}
+    /**
+     * 设置
+     *
+     * @param text
+     * @throws IllegalArgumentException
+     */
+    @Override
+    public void setAsText(String text) throws IllegalArgumentException {
+        this.resourceEditor.setAsText(text);
+        Resource resource = (Resource) this.resourceEditor.getValue();
+        try {
+            setValue(resource != null ? resource.getInputStream() : null);
+        } catch (IOException ex) {
+            throw new IllegalArgumentException(
+                    "Could not retrieve InputStream for " + resource + ": " + ex.getMessage());
+        }
+    }
 
-	/**
-	 * This implementation returns {@code null} to indicate that
-	 * there is no appropriate text representation.
-	 */
-	@Override
-	public String getAsText() {
-		return null;
-	}
+    /**
+     * This implementation returns {@code null} to indicate that
+     * there is no appropriate text representation.
+     *
+     * 获取
+     */
+    @Override
+    public String getAsText() {
+        return null;
+    }
 
 }

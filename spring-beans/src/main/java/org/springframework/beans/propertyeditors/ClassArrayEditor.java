@@ -30,64 +30,85 @@ import org.springframework.util.StringUtils;
  * <p>Also supports "java.lang.String[]"-style array class names, in contrast
  * to the standard {@link Class#forName(String)} method.
  *
+ * 类数组编辑器
+ *
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @since 2.0
  */
 public class ClassArrayEditor extends PropertyEditorSupport {
 
-	private final ClassLoader classLoader;
+    /**
+     * 类加载器
+     */
+    private final ClassLoader classLoader;
 
 
-	/**
-	 * Create a default {@code ClassEditor}, using the thread
-	 * context {@code ClassLoader}.
-	 */
-	public ClassArrayEditor() {
-		this(null);
-	}
+    /**
+     * Create a default {@code ClassEditor}, using the thread
+     * context {@code ClassLoader}.
+     *
+     * 构造方法
+     */
+    public ClassArrayEditor() {
+        this(null);
+    }
 
-	/**
-	 * Create a default {@code ClassArrayEditor}, using the given
-	 * {@code ClassLoader}.
-	 * @param classLoader the {@code ClassLoader} to use
-	 * (or pass {@code null} for the thread context {@code ClassLoader})
-	 */
-	public ClassArrayEditor(ClassLoader classLoader) {
-		this.classLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
-	}
+    /**
+     * Create a default {@code ClassArrayEditor}, using the given
+     * {@code ClassLoader}.
+     *
+     * 构造方法
+     *
+     * @param classLoader the {@code ClassLoader} to use
+     * (or pass {@code null} for the thread context {@code ClassLoader})
+     */
+    public ClassArrayEditor(ClassLoader classLoader) {
+        this.classLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
+    }
 
 
-	@Override
-	public void setAsText(String text) throws IllegalArgumentException {
-		if (StringUtils.hasText(text)) {
-			String[] classNames = StringUtils.commaDelimitedListToStringArray(text);
-			Class[] classes = new Class[classNames.length];
-			for (int i = 0; i < classNames.length; i++) {
-				String className = classNames[i].trim();
-				classes[i] = ClassUtils.resolveClassName(className, this.classLoader);
-			}
-			setValue(classes);
-		}
-		else {
-			setValue(null);
-		}
-	}
+    /**
+     * 设置为文本
+     *
+     * @param text
+     * @throws IllegalArgumentException
+     */
+    @Override
+    public void setAsText(String text) throws IllegalArgumentException {
+        if (StringUtils.hasText(text)) {
+            // 用逗号分隔
+            String[] classNames = StringUtils.commaDelimitedListToStringArray(text);
+            Class[] classes = new Class[classNames.length];
+            for (int i = 0; i < classNames.length; i++) {
+                String className = classNames[i].trim();
+                classes[i] = ClassUtils.resolveClassName(className, this.classLoader);
+            }
+            setValue(classes);
+        } else {
+            setValue(null);
+        }
+    }
 
-	@Override
-	public String getAsText() {
-		Class[] classes = (Class[]) getValue();
-		if (ObjectUtils.isEmpty(classes)) {
-			return "";
-		}
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < classes.length; ++i) {
-			if (i > 0) {
-				sb.append(",");
-			}
-			sb.append(ClassUtils.getQualifiedName(classes[i]));
-		}
-		return sb.toString();
-	}
+    /**
+     * 获取为文本
+     *
+     * @return
+     */
+    @Override
+    public String getAsText() {
+        Class[] classes = (Class[]) getValue();
+        if (ObjectUtils.isEmpty(classes)) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < classes.length; ++i) {
+            if (i > 0) {
+                sb.append(",");
+            }
+            sb.append(ClassUtils.getQualifiedName(classes[i]));
+        }
+        return sb.toString();
+    }
 
 }
