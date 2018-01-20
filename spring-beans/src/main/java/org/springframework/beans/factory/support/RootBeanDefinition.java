@@ -66,7 +66,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
     private volatile Class<?> targetType;
 
     /**
-     *
+     * 工厂方法是否唯一
      */
     boolean isFactoryMethodUnique = false;
 
