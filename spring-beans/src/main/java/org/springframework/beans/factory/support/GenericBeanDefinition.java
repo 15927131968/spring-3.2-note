@@ -29,6 +29,8 @@ import org.springframework.beans.factory.config.BeanDefinition;
  * potentially even reconfiguring the parent name). Use {@code RootBeanDefinition} /
  * {@code ChildBeanDefinition} where parent/child relationships happen to be pre-determined.
  *
+ * 通用的Bean定义
+ *
  * @author Juergen Hoeller
  * @since 2.5
  * @see #setParentName
@@ -38,61 +40,96 @@ import org.springframework.beans.factory.config.BeanDefinition;
 @SuppressWarnings("serial")
 public class GenericBeanDefinition extends AbstractBeanDefinition {
 
-	private String parentName;
+    /**
+     * 父Bean的名称
+     */
+    private String parentName;
 
 
-	/**
-	 * Create a new GenericBeanDefinition, to be configured through its bean
-	 * properties and configuration methods.
-	 * @see #setBeanClass
-	 * @see #setBeanClassName
-	 * @see #setScope
-	 * @see #setAutowireMode
-	 * @see #setDependencyCheck
-	 * @see #setConstructorArgumentValues
-	 * @see #setPropertyValues
-	 */
-	public GenericBeanDefinition() {
-		super();
-	}
+    /**
+     * Create a new GenericBeanDefinition, to be configured through its bean
+     * properties and configuration methods.
+     *
+     * 构造方法
+     *
+     * @see #setBeanClass
+     * @see #setBeanClassName
+     * @see #setScope
+     * @see #setAutowireMode
+     * @see #setDependencyCheck
+     * @see #setConstructorArgumentValues
+     * @see #setPropertyValues
+     */
+    public GenericBeanDefinition() {
+        super();
+    }
 
-	/**
-	 * Create a new GenericBeanDefinition as deep copy of the given
-	 * bean definition.
-	 * @param original the original bean definition to copy from
-	 */
-	public GenericBeanDefinition(BeanDefinition original) {
-		super(original);
-	}
-
-
-	public void setParentName(String parentName) {
-		this.parentName = parentName;
-	}
-
-	public String getParentName() {
-		return this.parentName;
-	}
+    /**
+     * Create a new GenericBeanDefinition as deep copy of the given
+     * bean definition.
+     *
+     * 构造方法
+     *
+     * @param original the original bean definition to copy from
+     */
+    public GenericBeanDefinition(BeanDefinition original) {
+        super(original);
+    }
 
 
-	@Override
-	public AbstractBeanDefinition cloneBeanDefinition() {
-		return new GenericBeanDefinition(this);
-	}
+    /**
+     * 设置父Bean的名称
+     *
+     * @param parentName
+     */
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
 
-	@Override
-	public boolean equals(Object other) {
-		return (this == other || (other instanceof GenericBeanDefinition && super.equals(other)));
-	}
+    /**
+     * 获取父Bean的名称
+     *
+     * @return
+     */
+    public String getParentName() {
+        return this.parentName;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder("Generic bean");
-		if (this.parentName != null) {
-			sb.append(" with parent '").append(this.parentName).append("'");
-		}
-		sb.append(": ").append(super.toString());
-		return sb.toString();
-	}
+
+    /**
+     * 克隆Bean定义
+     *
+     * @return
+     */
+    @Override
+    public AbstractBeanDefinition cloneBeanDefinition() {
+        return new GenericBeanDefinition(this);
+    }
+
+    /**
+     * 判断是否相等
+     *
+     * @param other
+     * @return
+     */
+    @Override
+    public boolean equals(Object other) {
+        return (this == other || (other instanceof GenericBeanDefinition && super.equals(other)));
+    }
+
+    /**
+     * 转换为字符串
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Generic bean");
+        if (this.parentName != null) {
+            sb.append(" with parent '").append(this.parentName).append("'");
+        }
+        sb.append(": ").append(super.toString());
+        return sb.toString();
+    }
 
 }
